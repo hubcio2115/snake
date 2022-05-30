@@ -21,14 +21,23 @@ const createBoard = (boardSize: number): number[][] => {
 
 const Board = (): JSX.Element => {
   const [board, setBoard] = useState<number[][]>(createBoard(BOARD_SIZE));
+  const [snakeCells, setSnakeCells] = useState(new Set([34]));
+  const [snake, setSnake] = useState(new SinglyLinkedList(44));
 
   return (
     <div className="board">
       {board.map((row, rowIndex) => {
         return (
           <div key={rowIndex} className="row">
-            {row.map((_cell, cellIndex) => {
-              return <div key={cellIndex} className="cell" />;
+            {row.map((cellValue, cellIndex) => {
+              return (
+                <div
+                  key={cellIndex}
+                  className={`cell${
+                    snakeCells.has(cellValue) ? " snake-cell" : ""
+                  }`}
+                />
+              );
             })}
           </div>
         );
