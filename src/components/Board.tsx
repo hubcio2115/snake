@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { LinkedListNode, SinglyLinkedList } from "utils/classes";
 import "styles/Board.scss";
 
 const BOARD_SIZE = 20;
