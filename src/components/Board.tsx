@@ -4,6 +4,21 @@ import "styles/Board.scss";
 
 const BOARD_SIZE = 20;
 
+const createBoard = (boardSize: number): number[][] => {
+  let counter = 1;
+  const board: number[][] = [];
+
+  for (let row = 0; row < boardSize; row++) {
+    const currentRow = [];
+    for (let col = 0; col < boardSize; col++) {
+      currentRow.push(counter++);
+    }
+    board.push(currentRow);
+  }
+
+  return board;
+};
+
 const Board = (): JSX.Element => {
   const [board, setBoard] = useState<number[][]>(
     new Array(BOARD_SIZE)
