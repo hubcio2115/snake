@@ -20,11 +20,7 @@ const createBoard = (boardSize: number): number[][] => {
 };
 
 const Board = (): JSX.Element => {
-  const [board, setBoard] = useState<number[][]>(
-    new Array(BOARD_SIZE)
-      .fill(0)
-      .map((_row: number[]) => new Array(BOARD_SIZE).fill(0))
-  );
+  const [board, setBoard] = useState<number[][]>(createBoard(BOARD_SIZE));
 
   return (
     <div className="board">
