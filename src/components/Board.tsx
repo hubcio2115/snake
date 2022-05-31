@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { Cell, LinkedListNode, LinkedList } from "utils/classes";
-import "styles/Board.scss";
-import { randomIntFromInterval } from "utils/lib";
 import { Coords } from "utils/interfaces";
+import "styles/Board.scss";
 
 const BOARD_SIZE = 10;
 
@@ -28,17 +27,38 @@ const createBoard = (boardSize: number): number[][] => {
   return board;
 };
 
+const getDirectionFromKey = (key: KeyboardEvent["key"]) => {
+  switch (key) {
+    case "ArrowUp":
+      return DIRECTIONS.UP;
+    case "ArrowDown":
+      return DIRECTIONS.DOWN;
+    case "ArrowLeft":
+      return DIRECTIONS.LEFT;
+    case "ArrowRight":
+      return DIRECTIONS.RIGHT;
+    default:
+      return "";
+  }
+};
+
 const Board = (): JSX.Element => {
   const [board, setBoard] = useState<number[][]>(createBoard(BOARD_SIZE));
   const [snakeCells, setSnakeCells] = useState(new Set([44]));
   const [snake, setSnake] = useState(new LinkedList(new Cell(4, 3, 44)));
   const [direction, setDirection] = useState(DIRECTIONS.RIGHT);
 
-  // useEffect(() => {
-  //   setInterval(() => {
-  //     moveSnake();
-  //   }, 1000);
-  // }, []);
+  useEffect(() => {
+    //   setInterval(() => {
+    //     moveSnake();
+    //   }, 1000);
+
+    window.addEventListener("keydown", (event) => {
+      const newDirection = getDirectionFromKey(event.key);
+
+      if (newDirection !== "") setDirection(newDirection);
+    });
+  }, []);
 
   const getNextSnakeHeadCoords = (
     currentSnakeHead: Coords,
