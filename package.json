@@ -10,6 +10,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
+    "test": "jest",
+    "type-check": "tsc",
     "prettier": "prettier --write ./src/",
     "prettier-check": "prettier -c ./src/",
     "prepare": "husky install"
@@ -19,6 +21,7 @@
     "react-dom": "^18.0.0"
   },
   "devDependencies": {
+    "@types/jest": "^27.5.1",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "^5.27.0",
@@ -31,11 +34,14 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-react": "^7.30.0",
+    "husky": "^8.0.0",
+    "jest": "^28.1.0",
     "prettier": "^2.6.2",
     "sass": "^1.52.1",
-    "typescript": "^4.6.3",
+    "ts-jest": "^28.0.3",
+    "ts-node": "^10.8.0",
+    "typescript": "^4.7.2",
     "vite": "^2.9.9",
-    "vite-tsconfig-paths": "^3.5.0",
-    "husky": "^8.0.0"
+    "vite-tsconfig-paths": "^3.5.0"
   }
 }
