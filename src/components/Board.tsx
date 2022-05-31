@@ -97,8 +97,6 @@ const Board = (): JSX.Element => {
     const nextHeadCoords = getNextSnakeHeadCoords(currentHeadCoords, direction);
     const nextHeadValue = board[nextHeadCoords.row][nextHeadCoords.col];
 
-    if (nextHeadValue === foodCell) handleFoodConsumption();
-
     const newHead = new LinkedListNode(
       new Cell(nextHeadCoords.row, nextHeadCoords.col, nextHeadValue)
     );
