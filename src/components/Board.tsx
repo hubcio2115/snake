@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { Cell, LinkedListNode, LinkedList } from "utils/classes";
-import { Coords } from "utils/interfaces";
-import "styles/Board.scss";
-import { randomIntFromInterval } from "utils/lib";
+import {useEffect, useState} from 'react';
+import {Cell, LinkedListNode, LinkedList} from 'utils/classes';
+import {Coords} from 'utils/interfaces';
+import 'styles/Board.scss';
+import {randomIntFromInterval} from 'utils/lib';
 
 const BOARD_SIZE = 20;
 const STARTING_SNAKE_CELL = 55;
@@ -14,10 +14,10 @@ const STARTING_SNAKE_LL_VALUE: Cell = {
 };
 
 enum DIRECTIONS {
-  UP = "UP",
-  DOWN = "DOWN",
-  LEFT = "LEFT",
-  RIGHT = "RIGHT",
+  UP = 'UP',
+  DOWN = 'DOWN',
+  LEFT = 'LEFT',
+  RIGHT = 'RIGHT',
 }
 
 const createBoard = (boardSize: number): number[][] => {
@@ -36,7 +36,7 @@ const createBoard = (boardSize: number): number[][] => {
 };
 
 const isOutOfBounds = (coords: Coords, board: number[][]) => {
-  const { row, col } = coords;
+  const {row, col} = coords;
 
   if (row < 0 || col < 0) return true;
   if (row >= board.length || col >= board[0].length) return true;
@@ -44,18 +44,18 @@ const isOutOfBounds = (coords: Coords, board: number[][]) => {
   return false;
 };
 
-const getDirectionFromKey = (key: KeyboardEvent["key"]) => {
+const getDirectionFromKey = (key: KeyboardEvent['key']) => {
   switch (key) {
-    case "ArrowUp":
+    case 'ArrowUp':
       return DIRECTIONS.UP;
-    case "ArrowDown":
+    case 'ArrowDown':
       return DIRECTIONS.DOWN;
-    case "ArrowLeft":
+    case 'ArrowLeft':
       return DIRECTIONS.LEFT;
-    case "ArrowRight":
+    case 'ArrowRight':
       return DIRECTIONS.RIGHT;
     default:
-      return "";
+      return '';
   }
 };
 
@@ -72,16 +72,16 @@ const Board = (): JSX.Element => {
     //     moveSnake();
     //   }, 1000);
 
-    window.addEventListener("keydown", (event) => {
+    window.addEventListener('keydown', (event) => {
       const newDirection = getDirectionFromKey(event.key);
 
-      if (newDirection !== "") setDirection(newDirection);
+      if (newDirection !== '') setDirection(newDirection);
     });
   }, []);
 
   const getNextSnakeHeadCoords = (
     currentSnakeHead: Coords,
-    direction: DIRECTIONS
+    direction: DIRECTIONS,
   ) => {
     switch (direction) {
       case DIRECTIONS.UP:
@@ -126,7 +126,7 @@ const Board = (): JSX.Element => {
     setFoodCell(STARTING_FOOD_CELL);
     setSnakeCells(new Set([STARTING_SNAKE_CELL]));
     setSnake(new LinkedList(STARTING_SNAKE_LL_VALUE));
-    alert("Przegrałeś :(");
+    alert('Przegrałeś :(');
   };
 
   const moveSnake = () => {
@@ -178,8 +178,8 @@ const Board = (): JSX.Element => {
                   <div
                     key={cellIndex}
                     className={`cell${
-                      snakeCells.has(cellValue) ? " snake-cell" : ""
-                    } ${foodCell === cellValue ? " apple-cell" : ""}`}
+                      snakeCells.has(cellValue) ? ' snake-cell' : ''
+                    } ${foodCell === cellValue ? ' apple-cell' : ''}`}
                   />
                 );
               })}

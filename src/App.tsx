@@ -1,5 +1,5 @@
-import "styles/App.scss";
-import Board from "components/Board";
+import 'styles/App.scss';
+import Board from 'components/Board';
 
 const App = (): JSX.Element => {
   return (
