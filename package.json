@@ -10,7 +10,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "prettier": "prettier ./src/"
+    "prettier-write": "prettier ./src/"
   },
   "dependencies": {
     "react": "^18.0.0",
