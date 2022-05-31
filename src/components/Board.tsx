@@ -44,6 +44,7 @@ const getDirectionFromKey = (key: KeyboardEvent["key"]) => {
 };
 
 const Board = (): JSX.Element => {
+  const [score, setScore] = useState(0);
   const [board, setBoard] = useState<number[][]>(createBoard(BOARD_SIZE));
   const [snakeCells, setSnakeCells] = useState(new Set([55]));
   const [foodCell, setFoodCell] = useState(52);
@@ -101,6 +102,7 @@ const Board = (): JSX.Element => {
     }
 
     setFoodCell(nextFoodCell);
+    setScore(score + 1);
   };
 
   const moveSnake = () => {
@@ -131,6 +133,7 @@ const Board = (): JSX.Element => {
 
   return (
     <>
+      <h2>Score: {score}</h2>
       <button onClick={() => moveSnake()}>Move manually</button>
       <div className="board">
         {board.map((row, rowIndex) => {
