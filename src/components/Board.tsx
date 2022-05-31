@@ -1,8 +1,14 @@
 import {useEffect, useState} from 'react';
 import {Cell, LinkedListNode, LinkedList} from 'utils/classes';
 import {Coords} from 'utils/interfaces';
+import {DIRECTIONS} from 'utils/enums';
+import {
+  randomIntFromInterval,
+  createBoard,
+  getDirectionFromKey,
+  isOutOfBounds,
+} from 'utils/lib';
 import 'styles/Board.scss';
-import {randomIntFromInterval} from 'utils/lib';
 
 const BOARD_SIZE = 20;
 const STARTING_SNAKE_CELL = 55;
@@ -11,52 +17,6 @@ const STARTING_SNAKE_LL_VALUE: Cell = {
   row: 2,
   col: 14,
   cell: STARTING_SNAKE_CELL,
-};
-
-enum DIRECTIONS {
-  UP = 'UP',
-  DOWN = 'DOWN',
-  LEFT = 'LEFT',
-  RIGHT = 'RIGHT',
-}
-
-const createBoard = (boardSize: number): number[][] => {
-  let counter = 1;
-  const board: number[][] = [];
-
-  for (let row = 0; row < boardSize; row++) {
-    const currentRow = [];
-    for (let col = 0; col < boardSize; col++) {
-      currentRow.push(counter++);
-    }
-    board.push(currentRow);
-  }
-
-  return board;
-};
-
-const isOutOfBounds = (coords: Coords, board: number[][]) => {
-  const {row, col} = coords;
-
-  if (row < 0 || col < 0) return true;
-  if (row >= board.length || col >= board[0].length) return true;
-
-  return false;
-};
-
-const getDirectionFromKey = (key: KeyboardEvent['key']) => {
-  switch (key) {
-    case 'ArrowUp':
-      return DIRECTIONS.UP;
-    case 'ArrowDown':
-      return DIRECTIONS.DOWN;
-    case 'ArrowLeft':
-      return DIRECTIONS.LEFT;
-    case 'ArrowRight':
-      return DIRECTIONS.RIGHT;
-    default:
-      return '';
-  }
 };
 
 const Board = (): JSX.Element => {
