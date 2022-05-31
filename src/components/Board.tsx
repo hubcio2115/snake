@@ -94,15 +94,18 @@ const Board = (): JSX.Element => {
       col: snake.head.value.col,
     };
 
-    const newHeadCoords = getNextSnakeHeadCoords(currentHeadCoords, direction);
-    const newHeadValue = board[newHeadCoords.row][newHeadCoords.col];
+    const nextHeadCoords = getNextSnakeHeadCoords(currentHeadCoords, direction);
+    const nextHeadValue = board[nextHeadCoords.row][nextHeadCoords.col];
+
+    if (nextHeadValue === foodCell) handleFoodConsumption();
+
     const newHead = new LinkedListNode(
-      new Cell(newHeadCoords.row, newHeadCoords.col, newHeadValue)
+      new Cell(nextHeadCoords.row, nextHeadCoords.col, nextHeadValue)
     );
 
     const newSnakeCells = new Set(snakeCells);
     if (snake.tail) newSnakeCells.delete(snake.tail.value.value);
-    newSnakeCells.add(newHeadValue);
+    newSnakeCells.add(nextHeadValue);
 
     snake.head = newHead;
     snake.tail = snake.tail!.next;
