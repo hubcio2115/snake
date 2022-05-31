@@ -5,6 +5,13 @@ import "styles/Board.scss";
 import { randomIntFromInterval } from "utils/lib";
 
 const BOARD_SIZE = 20;
+const STARTING_SNAKE_CELL = 55;
+const STARTING_FOOD_CELL = 48;
+const STARTING_SNAKE_LL_VALUE: Cell = {
+  row: 2,
+  col: 14,
+  cell: STARTING_SNAKE_CELL,
+};
 
 enum DIRECTIONS {
   UP = "UP",
@@ -28,6 +35,15 @@ const createBoard = (boardSize: number): number[][] => {
   return board;
 };
 
+const isOutOfBounds = (coords: Coords, board: number[][]) => {
+  const { row, col } = coords;
+
+  if (row < 0 || col < 0) return true;
+  if (row >= board.length || col >= board[0].length) return true;
+
+  return false;
+};
+
 const getDirectionFromKey = (key: KeyboardEvent["key"]) => {
   switch (key) {
     case "ArrowUp":
@@ -46,9 +62,9 @@ const getDirectionFromKey = (key: KeyboardEvent["key"]) => {
 const Board = (): JSX.Element => {
   const [score, setScore] = useState(0);
   const [board, setBoard] = useState<number[][]>(createBoard(BOARD_SIZE));
-  const [snakeCells, setSnakeCells] = useState(new Set([55]));
-  const [foodCell, setFoodCell] = useState(52);
-  const [snake, setSnake] = useState(new LinkedList(new Cell(2, 14, 55)));
+  const [snakeCells, setSnakeCells] = useState(new Set([STARTING_SNAKE_CELL]));
+  const [foodCell, setFoodCell] = useState(STARTING_FOOD_CELL);
+  const [snake, setSnake] = useState(new LinkedList(STARTING_SNAKE_LL_VALUE));
   const [direction, setDirection] = useState(DIRECTIONS.RIGHT);
 
   useEffect(() => {
@@ -105,6 +121,14 @@ const Board = (): JSX.Element => {
     setScore(score + 1);
   };
 
+  const handleGameOver = () => {
+    setScore(0);
+    setFoodCell(STARTING_FOOD_CELL);
+    setSnakeCells(new Set([STARTING_SNAKE_CELL]));
+    setSnake(new LinkedList(STARTING_SNAKE_LL_VALUE));
+    alert("Przegrałeś :(");
+  };
+
   const moveSnake = () => {
     const currentHeadCoords: Coords = {
       row: snake.head.value.row,
@@ -112,17 +136,27 @@ const Board = (): JSX.Element => {
     };
 
     const nextHeadCoords = getNextSnakeHeadCoords(currentHeadCoords, direction);
-    const nextHeadValue = board[nextHeadCoords.row][nextHeadCoords.col];
+    if (isOutOfBounds(nextHeadCoords, board)) {
+      handleGameOver();
+      return;
+    }
 
-    if (nextHeadValue === foodCell) handleFoodConsumption();
+    const nextHeadCell = board[nextHeadCoords.row][nextHeadCoords.col];
+    if (snakeCells.has(nextHeadCell)) {
+      handleGameOver();
+      return;
+    }
 
-    const newHead = new LinkedListNode(
-      new Cell(nextHeadCoords.row, nextHeadCoords.col, nextHeadValue)
-    );
+    if (nextHeadCell === foodCell) handleFoodConsumption();
+
+    const newHead = new LinkedListNode({
+      ...nextHeadCoords,
+      cell: nextHeadCell,
+    });
 
     const newSnakeCells = new Set(snakeCells);
-    if (snake.tail) newSnakeCells.delete(snake.tail.value.value);
-    newSnakeCells.add(nextHeadValue);
+    if (snake.tail) newSnakeCells.delete(snake.tail.value.cell);
+    newSnakeCells.add(nextHeadCell);
 
     snake.head = newHead;
     snake.tail = snake.tail!.next;
