@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { Cell, LinkedListNode, LinkedList } from "utils/classes";
 import { Coords } from "utils/interfaces";
 import "styles/Board.scss";
+import { randomIntFromInterval } from "utils/lib";
 
-const BOARD_SIZE = 10;
+const BOARD_SIZE = 20;
 
 enum DIRECTIONS {
   UP = "UP",
@@ -44,8 +45,9 @@ const getDirectionFromKey = (key: KeyboardEvent["key"]) => {
 
 const Board = (): JSX.Element => {
   const [board, setBoard] = useState<number[][]>(createBoard(BOARD_SIZE));
-  const [snakeCells, setSnakeCells] = useState(new Set([44]));
-  const [snake, setSnake] = useState(new LinkedList(new Cell(4, 3, 44)));
+  const [snakeCells, setSnakeCells] = useState(new Set([55]));
+  const [foodCell, setFoodCell] = useState(52);
+  const [snake, setSnake] = useState(new LinkedList(new Cell(2, 14, 55)));
   const [direction, setDirection] = useState(DIRECTIONS.RIGHT);
 
   useEffect(() => {
@@ -88,6 +90,19 @@ const Board = (): JSX.Element => {
     }
   };
 
+  const handleFoodConsumption = () => {
+    const allPossibleCellValues = BOARD_SIZE ** 2;
+
+    let nextFoodCell: number;
+    while (true) {
+      nextFoodCell = randomIntFromInterval(1, allPossibleCellValues);
+      if (snakeCells.has(nextFoodCell) || foodCell === nextFoodCell) continue;
+      break;
+    }
+
+    setFoodCell(nextFoodCell);
+  };
+
   const moveSnake = () => {
     const currentHeadCoords: Coords = {
       row: snake.head.value.row,
@@ -125,7 +140,7 @@ const Board = (): JSX.Element => {
                     key={cellIndex}
                     className={`cell${
                       snakeCells.has(cellValue) ? " snake-cell" : ""
-                    }`}
+                    } ${foodCell === cellValue ? " apple-cell" : ""}`}
                   />
                 );
               })}
