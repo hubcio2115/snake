@@ -1,8 +1,17 @@
-import { useState } from "react";
-import { LinkedListNode, SinglyLinkedList } from "utils/classes";
+import { useEffect, useState } from "react";
+import { Cell, LinkedListNode, LinkedList } from "utils/classes";
 import "styles/Board.scss";
+import { randomIntFromInterval } from "utils/lib";
+import { Coords } from "utils/interfaces";
 
-const BOARD_SIZE = 20;
+const BOARD_SIZE = 10;
+
+enum DIRECTIONS {
+  UP = "UP",
+  DOWN = "DOWN",
+  LEFT = "LEFT",
+  RIGHT = "RIGHT",
+}
 
 const createBoard = (boardSize: number): number[][] => {
   let counter = 1;
@@ -21,28 +30,89 @@ const createBoard = (boardSize: number): number[][] => {
 
 const Board = (): JSX.Element => {
   const [board, setBoard] = useState<number[][]>(createBoard(BOARD_SIZE));
-  const [snakeCells, setSnakeCells] = useState(new Set([34]));
-  const [snake, setSnake] = useState(new SinglyLinkedList(44));
+  const [snakeCells, setSnakeCells] = useState(new Set([44]));
+  const [snake, setSnake] = useState(new LinkedList(new Cell(4, 3, 44)));
+  const [direction, setDirection] = useState(DIRECTIONS.RIGHT);
+
+  // useEffect(() => {
+  //   setInterval(() => {
+  //     moveSnake();
+  //   }, 1000);
+  // }, []);
+
+  const getNextSnakeHeadCoords = (
+    currentSnakeHead: Coords,
+    direction: DIRECTIONS
+  ) => {
+    switch (direction) {
+      case DIRECTIONS.UP:
+        return {
+          row: currentSnakeHead.row - 1,
+          col: currentSnakeHead.col,
+        };
+      case DIRECTIONS.DOWN:
+        return {
+          row: currentSnakeHead.row + 1,
+          col: currentSnakeHead.col,
+        };
+      case DIRECTIONS.LEFT:
+        return {
+          row: currentSnakeHead.row,
+          col: currentSnakeHead.col - 1,
+        };
+      case DIRECTIONS.RIGHT:
+        return {
+          row: currentSnakeHead.row,
+          col: currentSnakeHead.col + 1,
+        };
+    }
+  };
+
+  const moveSnake = () => {
+    const currentHeadCoords: Coords = {
+      row: snake.head.value.row,
+      col: snake.head.value.col,
+    };
+
+    const newHeadCoords = getNextSnakeHeadCoords(currentHeadCoords, direction);
+    const newHeadValue = board[newHeadCoords.row][newHeadCoords.col];
+    const newHead = new LinkedListNode(
+      new Cell(newHeadCoords.row, newHeadCoords.col, newHeadValue)
+    );
+
+    const newSnakeCells = new Set(snakeCells);
+    if (snake.tail) newSnakeCells.delete(snake.tail.value.value);
+    newSnakeCells.add(newHeadValue);
+
+    snake.head = newHead;
+    snake.tail = snake.tail!.next;
+    if (snake.tail === null) snake.tail = snake.head;
+
+    setSnakeCells(newSnakeCells);
+  };
 
   return (
-    <div className="board">
-      {board.map((row, rowIndex) => {
-        return (
-          <div key={rowIndex} className="row">
-            {row.map((cellValue, cellIndex) => {
-              return (
-                <div
-                  key={cellIndex}
-                  className={`cell${
-                    snakeCells.has(cellValue) ? " snake-cell" : ""
-                  }`}
-                />
-              );
-            })}
-          </div>
-        );
-      })}
-    </div>
+    <>
+      <button onClick={() => moveSnake()}>Move manually</button>
+      <div className="board">
+        {board.map((row, rowIndex) => {
+          return (
+            <div key={rowIndex} className="row">
+              {row.map((cellValue, cellIndex) => {
+                return (
+                  <div
+                    key={cellIndex}
+                    className={`cell${
+                      snakeCells.has(cellValue) ? " snake-cell" : ""
+                    }`}
+                  />
+                );
+              })}
+            </div>
+          );
+        })}
+      </div>
+    </>
   );
 };
 
