@@ -1,7 +1,7 @@
-import {useEffect, useState} from 'react';
-import {Cell, LinkedListNode, LinkedList} from 'utils/classes';
-import {Coords} from 'utils/interfaces';
-import {DIRECTIONS} from 'utils/enums';
+import { useEffect, useState } from 'react';
+import { Cell, LinkedListNode, LinkedList } from 'utils/classes';
+import { Coords } from 'utils/interfaces';
+import { DIRECTIONS } from 'utils/enums';
 import {
   randomIntFromInterval,
   createBoard,
