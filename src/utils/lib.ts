@@ -1,11 +1,11 @@
 import { DIRECTIONS } from './enums';
 import { Coords } from './interfaces';
 
-export const randomIntFromInterval = (min: number, max: number): number => {
+export function randomIntFromInterval(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1) + min);
-};
+}
 
-export const createBoard = (boardSize: number): number[][] => {
+export function createBoard(boardSize: number): number[][] {
   let counter = 1;
   const board: number[][] = [];
 
@@ -18,18 +18,18 @@ export const createBoard = (boardSize: number): number[][] => {
   }
 
   return board;
-};
+}
 
-export const isOutOfBounds = (coords: Coords, board: number[][]) => {
+export function isOutOfBounds(coords: Coords, board: number[][]) {
   const { row, col } = coords;
 
   if (row < 0 || col < 0) return true;
   if (row >= board.length || col >= board[0].length) return true;
 
   return false;
-};
+}
 
-export const getDirectionFromKey = (key: KeyboardEvent['key']) => {
+export function getDirectionFromKey(key: KeyboardEvent['key']) {
   switch (key) {
     case 'ArrowUp':
       return DIRECTIONS.UP;
@@ -42,4 +42,4 @@ export const getDirectionFromKey = (key: KeyboardEvent['key']) => {
     default:
       return '';
   }
-};
+}
