@@ -35,9 +35,14 @@ const Board = (): JSX.Element => {
   const [snake, setSnake] = useState(
     new LinkedList(getStartingSnakeLLValue(board)),
   );
-  const [snakeCells, setSnakeCells] = useState(
+  const [snakeCells, _setSnakeCells] = useState(
     new Set([snake.head.value.cell]),
   );
+  const snakeCellsHookRef = useRef(snakeCells);
+  const setSnakeCells = (newSnakeCells: Set<number>) => {
+    snakeCellsHookRef.current = newSnakeCells;
+    _setSnakeCells(newSnakeCells);
+  };
 
   const [foodCell, setFoodCell] = useState(snake.head.value.cell + 5);
 
@@ -52,15 +57,25 @@ const Board = (): JSX.Element => {
 
   useEffect(() => {
     window.addEventListener('keydown', (event) => {
-      const newDirection = getDirectionFromKey(event.key);
-
-      if (newDirection !== '') setDirection(newDirection);
+      handleKeydown(event.key);
     });
   }, []);
 
   useInterval(() => {
     moveSnake();
   }, snakesSpeed);
+
+  const handleKeydown = (key: KeyboardEvent['key']) => {
+    const newDirection = getDirectionFromKey(key);
+    const isValidDirection = newDirection !== '';
+    if (!isValidDirection) return;
+    const snakeWillRunIntoItself =
+      getOppositeDirection(newDirection) === directionHookRef.current &&
+      snakeCellsHookRef.current.size > 1;
+
+    if (snakeWillRunIntoItself) return;
+    setDirection(newDirection);
+  };
 
   const handleFoodConsumption = (newSnakeCells: Set<number>) => {
     const maxPossibleCellValue = BOARD_SIZE * BOARD_SIZE;
