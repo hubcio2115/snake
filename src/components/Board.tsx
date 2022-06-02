@@ -9,6 +9,7 @@ import {
   isOutOfBounds,
 } from 'utils/lib';
 import 'styles/Board.scss';
+import { useInterval } from 'utils/hooks';
 
 const BOARD_SIZE = 20;
 
@@ -47,17 +48,19 @@ const Board = (): JSX.Element => {
     _setDirection(direction);
   };
 
-  useEffect(() => {
-    //   setInterval(() => {
-    //     moveSnake();
-    //   }, 1000);
+  const [snakesSpeed, setSnakesSpeed] = useState(300);
 
+  useEffect(() => {
     window.addEventListener('keydown', (event) => {
       const newDirection = getDirectionFromKey(event.key);
 
       if (newDirection !== '') setDirection(newDirection);
     });
   }, []);
+
+  useInterval(() => {
+    moveSnake();
+  }, snakesSpeed);
 
   const handleFoodConsumption = (newSnakeCells: Set<number>) => {
     const maxPossibleCellValue = BOARD_SIZE * BOARD_SIZE;
@@ -69,6 +72,8 @@ const Board = (): JSX.Element => {
         continue;
       break;
     }
+
+    if ((score + 1) % 5 === 0) setSnakesSpeed(snakesSpeed * 0.75);
 
     setFoodCell(nextFoodCell);
     setScore(score + 1);
@@ -182,6 +187,8 @@ const Board = (): JSX.Element => {
     setSnakeCells(new Set([snakeLLStartingValue.cell]));
     setDirection(DIRECTIONS.RIGHT);
 
+    setSnakesSpeed(300);
+
     alert('Przegrałeś :(');
   };
 
@@ -232,7 +239,6 @@ const Board = (): JSX.Element => {
   return (
     <>
       <h2>Score: {score}</h2>
-      <button onClick={() => moveSnake()}>Move manually</button>
       <div className="board">
         {board.map((row, rowIndex) => {
           return (
