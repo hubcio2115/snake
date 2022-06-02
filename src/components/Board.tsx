@@ -9,6 +9,7 @@ import {
   isOutOfBounds,
 } from 'utils/lib';
 import 'styles/Board.scss';
+import { useInterval } from 'utils/hooks';
 
 const BOARD_SIZE = 20;
 
@@ -48,16 +49,16 @@ const Board = (): JSX.Element => {
   };
 
   useEffect(() => {
-    //   setInterval(() => {
-    //     moveSnake();
-    //   }, 1000);
-
     window.addEventListener('keydown', (event) => {
       const newDirection = getDirectionFromKey(event.key);
 
       if (newDirection !== '') setDirection(newDirection);
     });
   }, []);
+
+  useInterval(() => {
+    moveSnake();
+  }, 300);
 
   const handleFoodConsumption = (newSnakeCells: Set<number>) => {
     const maxPossibleCellValue = BOARD_SIZE * BOARD_SIZE;
@@ -232,7 +233,6 @@ const Board = (): JSX.Element => {
   return (
     <>
       <h2>Score: {score}</h2>
-      <button onClick={() => moveSnake()}>Move manually</button>
       <div className="board">
         {board.map((row, rowIndex) => {
           return (
