@@ -48,6 +48,8 @@ const Board = (): JSX.Element => {
     _setDirection(direction);
   };
 
+  const [snakesSpeed, setSnakesSpeed] = useState(300);
+
   useEffect(() => {
     window.addEventListener('keydown', (event) => {
       const newDirection = getDirectionFromKey(event.key);
@@ -58,7 +60,7 @@ const Board = (): JSX.Element => {
 
   useInterval(() => {
     moveSnake();
-  }, 300);
+  }, snakesSpeed);
 
   const handleFoodConsumption = (newSnakeCells: Set<number>) => {
     const maxPossibleCellValue = BOARD_SIZE * BOARD_SIZE;
@@ -70,6 +72,8 @@ const Board = (): JSX.Element => {
         continue;
       break;
     }
+
+    if ((score + 1) % 5 === 0) setSnakesSpeed(snakesSpeed * 0.75);
 
     setFoodCell(nextFoodCell);
     setScore(score + 1);
@@ -182,6 +186,8 @@ const Board = (): JSX.Element => {
 
     setSnakeCells(new Set([snakeLLStartingValue.cell]));
     setDirection(DIRECTIONS.RIGHT);
+
+    setSnakesSpeed(300);
 
     alert('Przegrałeś :(');
   };

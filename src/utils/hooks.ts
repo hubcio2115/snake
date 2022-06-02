@@ -5,16 +5,12 @@ export function useInterval(callback: Function, delay: number) {
 
   useEffect(() => {
     savedCallback.current = callback;
-  }, [callback]);
+  });
 
   useEffect(() => {
-    function tick() {
+    let id = setInterval(() => {
       savedCallback.current!();
-    }
-
-    if (delay !== null) {
-      let id = setInterval(tick, delay);
-      return () => clearInterval(id);
-    }
+    }, delay);
+    return () => clearInterval(id);
   }, [delay]);
 }
