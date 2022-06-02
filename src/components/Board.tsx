@@ -75,10 +75,34 @@ const Board = (): JSX.Element => {
   };
 
   const getOppositeDirection = (direction: DIRECTIONS) => {
-    if (direction === DIRECTIONS.UP) return DIRECTIONS.DOWN;
-    if (direction === DIRECTIONS.RIGHT) return DIRECTIONS.LEFT;
-    if (direction === DIRECTIONS.DOWN) return DIRECTIONS.UP;
-    if (direction === DIRECTIONS.LEFT) return DIRECTIONS.RIGHT;
+    switch (direction) {
+      case DIRECTIONS.UP:
+        return DIRECTIONS.DOWN;
+      case DIRECTIONS.DOWN:
+        return DIRECTIONS.UP;
+      case DIRECTIONS.LEFT:
+        return DIRECTIONS.RIGHT;
+      case DIRECTIONS.RIGHT:
+        return DIRECTIONS.LEFT;
+    }
+  };
+
+  const getNextNodeDirection = (
+    node: LinkedListNode,
+    currentDirection: DIRECTIONS,
+  ) => {
+    if (node.next === null) return currentDirection;
+    const { row: currentRow, col: currentCol } = node.value;
+    const { row: nextRow, col: nextCol } = node.next.value;
+
+    if (nextRow === currentRow && nextCol === currentCol + 1)
+      return DIRECTIONS.RIGHT;
+    if (nextRow === currentRow && nextCol === currentCol - 1)
+      return DIRECTIONS.LEFT;
+    if (nextCol === currentCol && nextRow === currentRow + 1)
+      return DIRECTIONS.DOWN;
+    if (nextCol === currentCol && nextRow === currentRow - 1)
+      return DIRECTIONS.UP;
   };
 
   const getGrowthNodeCoords = (
@@ -89,7 +113,7 @@ const Board = (): JSX.Element => {
       snakeTail,
       currentDirection,
     )!;
-    const growthDirection = getOppositeDirection(tailNextNodeDirection)!;
+    const growthDirection = getOppositeDirection(tailNextNodeDirection);
     const currentTailCoords = {
       row: snakeTail.value.row,
       col: snakeTail.value.col,
@@ -146,24 +170,6 @@ const Board = (): JSX.Element => {
           col: coords.col - 1,
         };
     }
-  };
-
-  const getNextNodeDirection = (
-    node: LinkedListNode,
-    currentDirection: DIRECTIONS,
-  ) => {
-    if (node.next === null) return currentDirection;
-    const { row: currentRow, col: currentCol } = node.value;
-    const { row: nextRow, col: nextCol } = node.next.value;
-
-    if (nextRow === currentRow && nextCol === currentCol + 1)
-      return DIRECTIONS.RIGHT;
-    if (nextRow === currentRow && nextCol === currentCol - 1)
-      return DIRECTIONS.LEFT;
-    if (nextCol === currentCol && nextRow === currentRow + 1)
-      return DIRECTIONS.DOWN;
-    if (nextCol === currentCol && nextRow === currentRow - 1)
-      return DIRECTIONS.UP;
   };
 
   const handleGameOver = () => {
