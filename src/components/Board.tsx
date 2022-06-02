@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Cell, LinkedListNode, LinkedList } from 'utils/classes';
 import { Coords } from 'utils/interfaces';
 import { DIRECTIONS } from 'utils/enums';
@@ -11,21 +11,41 @@ import {
 import 'styles/Board.scss';
 
 const BOARD_SIZE = 20;
-const STARTING_SNAKE_CELL = 55;
-const STARTING_FOOD_CELL = 48;
-const STARTING_SNAKE_LL_VALUE: Cell = {
-  row: 2,
-  col: 14,
-  cell: STARTING_SNAKE_CELL,
+
+const getStartingSnakeLLValue = (board: number[][]): Cell => {
+  const rowSize = board.length;
+  const colSize = board[0].length;
+
+  const startingRow = Math.round(rowSize / 3);
+  const startingCol = Math.round(colSize / 3);
+  const startingCell = board[startingRow][startingCol];
+
+  return {
+    row: startingRow,
+    col: startingCol,
+    cell: startingCell,
+  };
 };
 
 const Board = (): JSX.Element => {
+  const board = useMemo(() => createBoard(BOARD_SIZE), []);
+
   const [score, setScore] = useState(0);
-  const [board, setBoard] = useState<number[][]>(createBoard(BOARD_SIZE));
-  const [snakeCells, setSnakeCells] = useState(new Set([STARTING_SNAKE_CELL]));
-  const [foodCell, setFoodCell] = useState(STARTING_FOOD_CELL);
-  const [snake, setSnake] = useState(new LinkedList(STARTING_SNAKE_LL_VALUE));
-  const [direction, setDirection] = useState(DIRECTIONS.RIGHT);
+  const [snake, setSnake] = useState(
+    new LinkedList(getStartingSnakeLLValue(board)),
+  );
+  const [snakeCells, setSnakeCells] = useState(
+    new Set([snake.head.value.cell]),
+  );
+
+  const [foodCell, setFoodCell] = useState(snake.head.value.cell + 5);
+
+  const [direction, _setDirection] = useState(DIRECTIONS.RIGHT);
+  const directionHookRef = useRef(direction);
+  const setDirection = (direction: DIRECTIONS) => {
+    directionHookRef.current = direction;
+    _setDirection(direction);
+  };
 
   useEffect(() => {
     //   setInterval(() => {
@@ -83,9 +103,14 @@ const Board = (): JSX.Element => {
 
   const handleGameOver = () => {
     setScore(0);
-    setFoodCell(STARTING_FOOD_CELL);
-    setSnakeCells(new Set([STARTING_SNAKE_CELL]));
-    setSnake(new LinkedList(STARTING_SNAKE_LL_VALUE));
+
+    const snakeLLStartingValue = getStartingSnakeLLValue(board);
+    setSnake(new LinkedList(snakeLLStartingValue));
+    setFoodCell(snakeLLStartingValue.cell + 5);
+
+    setSnakeCells(new Set([snakeLLStartingValue.cell]));
+    setDirection(DIRECTIONS.RIGHT);
+
     alert('Przegrałeś :(');
   };
 
