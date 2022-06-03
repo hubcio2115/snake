@@ -59,17 +59,18 @@ export function getNextNodeDirection(
   currentDirection: DIRECTIONS,
 ) {
   if (node.next === null) return currentDirection;
+
   const { row: currentRow, col: currentCol } = node.value;
   const { row: nextRow, col: nextCol } = node.next.value;
 
-  if (nextRow === currentRow && nextCol === currentCol + 1)
-    return DIRECTIONS.RIGHT;
-  if (nextRow === currentRow && nextCol === currentCol - 1)
-    return DIRECTIONS.LEFT;
-  if (nextCol === currentCol && nextRow === currentRow + 1)
-    return DIRECTIONS.DOWN;
   if (nextCol === currentCol && nextRow === currentRow - 1)
     return DIRECTIONS.UP;
+  if (nextCol === currentCol && nextRow === currentRow + 1)
+    return DIRECTIONS.DOWN;
+  if (nextRow === currentRow && nextCol === currentCol - 1)
+    return DIRECTIONS.LEFT;
+  if (nextRow === currentRow && nextCol === currentCol + 1)
+    return DIRECTIONS.RIGHT;
 }
 
 export function getCoordsInDirection(
@@ -108,14 +109,17 @@ export function getGrowthNodeCoords(
     snakeTail,
     currentDirection,
   )!;
+
   const growthDirection = getOppositeDirection(tailNextNodeDirection);
   const currentTailCoords = {
     row: snakeTail.value.row,
     col: snakeTail.value.col,
   };
+
   const growthNodeCoords = getCoordsInDirection(
     currentTailCoords,
     growthDirection,
   );
+
   return growthNodeCoords;
 }
