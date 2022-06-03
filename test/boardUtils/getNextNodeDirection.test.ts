@@ -1,4 +1,4 @@
-import { getNextNodeDirection } from '../../src/components/BoardUtils';
+import { getNextNodeDirection } from '../../src/components/Board/BoardUtils';
 import { LinkedListNode } from '../../src/utils/classes';
 import { Cell } from '../../src/utils/interfaces';
 import { DIRECTIONS } from '../../src/utils/enums';

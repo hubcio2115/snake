@@ -1,4 +1,11 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { LinkedListNode, LinkedList } from 'utils/classes';
 import { Coords, Cell } from 'utils/interfaces';
 import { DIRECTIONS } from 'utils/enums';
@@ -13,6 +20,7 @@ import {
 } from './BoardUtils';
 import 'styles/Board.scss';
 import { useInterval } from 'utils/hooks';
+import { Box, Stack, Typography } from '@mui/material';
 
 const BOARD_SIZE = 20;
 
@@ -31,7 +39,11 @@ const getStartingSnakeLLValue = (board: number[][]): Cell => {
   };
 };
 
-const Board = (): JSX.Element => {
+interface BoardProps {
+  setIsGameRunning: Dispatch<SetStateAction<boolean>>;
+}
+
+const Board = ({ setIsGameRunning }: BoardProps): JSX.Element => {
   const board = useMemo(() => createBoard(BOARD_SIZE), []);
 
   const [score, setScore] = useState(0);
@@ -220,31 +232,31 @@ const Board = (): JSX.Element => {
   };
 
   return (
-    <>
-      <h2>Score: {score}</h2>
-      <div className="board">
+    <Stack className="board-container">
+      <Box className="board">
         {board.map((row, rowIndex) => {
           return (
-            <div key={rowIndex} className="row">
+            <Box key={rowIndex} className="row">
               {row.map((cellValue, cellIndex) => {
                 return (
-                  <div
+                  <Box
                     key={cellIndex}
-                    className={`cell`}
+                    className="cell"
                     style={{
                       backgroundColor: snakeCells.has(cellValue) ? 'green' : '',
                     }}
                   >
                     {foodCell === cellValue ? '🍎' : ''}
                     {mineCells.has(cellValue) ? '💣' : ''}
-                  </div>
+                  </Box>
                 );
               })}
-            </div>
+            </Box>
           );
         })}
-      </div>
-    </>
+      </Box>
+      <Typography variant="h4">Score: {score}</Typography>
+    </Stack>
   );
 };
 

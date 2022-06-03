@@ -1,4 +1,4 @@
-import { getCoordsInDirection } from '../../src/components/BoardUtils';
+import { getCoordsInDirection } from '../../src/components/Board/BoardUtils';
 import { DIRECTIONS } from '../../src/utils/enums';
 
 describe('returns coords object from given coords in given direction', () => {
