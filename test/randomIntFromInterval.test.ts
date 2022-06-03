@@ -1,4 +1,4 @@
-import {randomIntFromInterval} from '../src/utils/lib';
+import { randomIntFromInterval } from '../src/utils/lib';
 
 describe('returns random int from given interval', () => {
   it('returns an int between min = 10 and max = 100', () => {

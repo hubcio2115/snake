@@ -2,12 +2,15 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Cell, LinkedListNode, LinkedList } from 'utils/classes';
 import { Coords } from 'utils/interfaces';
 import { DIRECTIONS } from 'utils/enums';
+import { randomIntFromInterval } from 'utils/lib';
 import {
-  randomIntFromInterval,
   createBoard,
   getDirectionFromKey,
   isOutOfBounds,
-} from 'utils/lib';
+  getOppositeDirection,
+  getGrowthNodeCoords,
+  getCoordsInDirection,
+} from './BoardUtils';
 import 'styles/Board.scss';
 import { useInterval } from 'utils/hooks';
 
@@ -106,57 +109,6 @@ const Board = (): JSX.Element => {
     setScore(score + 1);
   };
 
-  const getOppositeDirection = (direction: DIRECTIONS) => {
-    switch (direction) {
-      case DIRECTIONS.UP:
-        return DIRECTIONS.DOWN;
-      case DIRECTIONS.DOWN:
-        return DIRECTIONS.UP;
-      case DIRECTIONS.LEFT:
-        return DIRECTIONS.RIGHT;
-      case DIRECTIONS.RIGHT:
-        return DIRECTIONS.LEFT;
-    }
-  };
-
-  const getNextNodeDirection = (
-    node: LinkedListNode,
-    currentDirection: DIRECTIONS,
-  ) => {
-    if (node.next === null) return currentDirection;
-    const { row: currentRow, col: currentCol } = node.value;
-    const { row: nextRow, col: nextCol } = node.next.value;
-
-    if (nextRow === currentRow && nextCol === currentCol + 1)
-      return DIRECTIONS.RIGHT;
-    if (nextRow === currentRow && nextCol === currentCol - 1)
-      return DIRECTIONS.LEFT;
-    if (nextCol === currentCol && nextRow === currentRow + 1)
-      return DIRECTIONS.DOWN;
-    if (nextCol === currentCol && nextRow === currentRow - 1)
-      return DIRECTIONS.UP;
-  };
-
-  const getGrowthNodeCoords = (
-    snakeTail: LinkedListNode,
-    currentDirection: DIRECTIONS,
-  ) => {
-    const tailNextNodeDirection = getNextNodeDirection(
-      snakeTail,
-      currentDirection,
-    )!;
-    const growthDirection = getOppositeDirection(tailNextNodeDirection);
-    const currentTailCoords = {
-      row: snakeTail.value.row,
-      col: snakeTail.value.col,
-    };
-    const growthNodeCoords = getCoordsInDirection(
-      currentTailCoords,
-      growthDirection,
-    );
-    return growthNodeCoords;
-  };
-
   const growSnake = (newSnakeCells: Set<number>) => {
     const growthNodeCoords = getGrowthNodeCoords(snake.tail!, direction);
 
@@ -174,34 +126,6 @@ const Board = (): JSX.Element => {
     snake.tail.next = currentTail;
 
     newSnakeCells.add(newTailCell);
-  };
-
-  const getCoordsInDirection = (
-    coords: Coords,
-    direction: DIRECTIONS,
-  ): Coords => {
-    switch (direction) {
-      case DIRECTIONS.UP:
-        return {
-          row: coords.row - 1,
-          col: coords.col,
-        };
-      case DIRECTIONS.RIGHT:
-        return {
-          row: coords.row,
-          col: coords.col + 1,
-        };
-      case DIRECTIONS.DOWN:
-        return {
-          row: coords.row + 1,
-          col: coords.col,
-        };
-      case DIRECTIONS.LEFT:
-        return {
-          row: coords.row,
-          col: coords.col - 1,
-        };
-    }
   };
 
   const handleGameOver = () => {
@@ -242,6 +166,7 @@ const Board = (): JSX.Element => {
       col: nextHeadCoords.col,
       cell: nextHeadCell,
     });
+
     const currentHead = snake.head;
     snake.head = newHead;
     currentHead.next = newHead;
