@@ -48,6 +48,7 @@ const Board = (): JSX.Element => {
   };
 
   const [foodCell, setFoodCell] = useState(snake.head.value.cell + 5);
+  const [mineCells, setMineCells] = useState(new Set<number>([]));
 
   const [direction, _setDirection] = useState(DIRECTIONS.RIGHT);
   const directionHookRef = useRef(direction);
@@ -73,6 +74,10 @@ const Board = (): JSX.Element => {
     spawnFoodInNewLocation(snakeCells);
   }, foodLocationDelay);
 
+  useInterval(() => {
+    spawnMine();
+  }, 30000);
+
   const handleKeydown = (key: KeyboardEvent['key']) => {
     const newDirection = getDirectionFromKey(key);
     const isValidDirection = newDirection !== '';
@@ -91,7 +96,12 @@ const Board = (): JSX.Element => {
     let nextFoodCell;
     while (true) {
       nextFoodCell = randomIntFromInterval(1, maxPossibleCellValue);
-      if (snakeCells.has(nextFoodCell) || foodCell === nextFoodCell) continue;
+      if (
+        snakeCells.has(nextFoodCell) ||
+        mineCells.has(nextFoodCell) ||
+        foodCell === nextFoodCell
+      )
+        continue;
       break;
     }
 
@@ -100,6 +110,27 @@ const Board = (): JSX.Element => {
       : setFoodLocationDelay(foodLocationDelay + 1);
 
     setFoodCell(nextFoodCell);
+  };
+
+  const spawnMine = () => {
+    const maxPossibleCellValue = BOARD_SIZE * BOARD_SIZE;
+
+    let newMineCell;
+    while (true) {
+      newMineCell = randomIntFromInterval(1, maxPossibleCellValue);
+
+      if (
+        snakeCells.has(newMineCell) ||
+        mineCells.has(newMineCell) ||
+        foodCell === newMineCell
+      )
+        continue;
+      break;
+    }
+
+    const newMineCells = new Set(mineCells);
+    newMineCells.add(newMineCell);
+    setMineCells(newMineCells);
   };
 
   const handleFoodConsumption = (newSnakeCells: Set<number>) => {
@@ -134,6 +165,7 @@ const Board = (): JSX.Element => {
     const snakeLLStartingValue = getStartingSnakeLLValue(board);
     setSnake(new LinkedList(snakeLLStartingValue));
     setFoodCell(snakeLLStartingValue.cell + 5);
+    setMineCells(new Set());
 
     setSnakeCells(new Set([snakeLLStartingValue.cell]));
     setDirection(DIRECTIONS.RIGHT);
@@ -156,7 +188,7 @@ const Board = (): JSX.Element => {
     }
 
     const nextHeadCell = board[nextHeadCoords.row][nextHeadCoords.col];
-    if (snakeCells.has(nextHeadCell)) {
+    if (snakeCells.has(nextHeadCell) || mineCells.has(nextHeadCell)) {
       handleGameOver();
       return;
     }
@@ -200,7 +232,9 @@ const Board = (): JSX.Element => {
                     key={cellIndex}
                     className={`cell${
                       snakeCells.has(cellValue) ? ' snake-cell' : ''
-                    } ${foodCell === cellValue ? ' apple-cell' : ''}`}
+                    }${foodCell === cellValue ? ' apple-cell' : ''}${
+                      mineCells.has(cellValue) ? ' mine-cell' : ''
+                    }`}
                   />
                 );
               })}
