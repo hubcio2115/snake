@@ -230,12 +230,14 @@ const Board = (): JSX.Element => {
                 return (
                   <div
                     key={cellIndex}
-                    className={`cell${
-                      snakeCells.has(cellValue) ? ' snake-cell' : ''
-                    }${foodCell === cellValue ? ' apple-cell' : ''}${
-                      mineCells.has(cellValue) ? ' mine-cell' : ''
-                    }`}
-                  />
+                    className={`cell`}
+                    style={{
+                      backgroundColor: snakeCells.has(cellValue) ? 'green' : '',
+                    }}
+                  >
+                    {foodCell === cellValue ? '🍎' : ''}
+                    {mineCells.has(cellValue) ? '💣' : ''}
+                  </div>
                 );
               })}
             </div>
