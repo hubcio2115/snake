@@ -1,6 +1,6 @@
-import { LinkedListNode } from 'utils/classes';
-import { DIRECTIONS } from 'utils/enums';
-import { Coords } from 'utils/interfaces';
+import { LinkedListNode } from '../utils/classes';
+import { DIRECTIONS } from '../utils/enums';
+import { Coords } from '../utils/interfaces';
 
 export function createBoard(boardSize: number): number[][] {
   let counter = 1;
