@@ -11,18 +11,9 @@ $outline-color: #869abd;
       height: 25px;
       outline: 1px solid $outline-color;
       display: inline-block;
-    }
-
-    .snake-cell {
-      background-color: green;
-    }
-
-    .apple-cell {
-      background-color: red;
-    }
-
-    .mine-cell {
-      background-color: violet;
+      box-sizing: border-box;
+      overflow: hidden;
+      padding: 2px;
     }
   }
 }
