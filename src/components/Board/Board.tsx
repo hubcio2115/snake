@@ -20,7 +20,7 @@ import {
 } from './BoardUtils';
 import 'styles/Board.scss';
 import { useInterval } from 'utils/hooks';
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Button, Modal, Stack, Typography } from '@mui/material';
 
 const BOARD_SIZE = 20;
 
@@ -46,6 +46,7 @@ interface BoardProps {
 const Board = ({ setIsGameRunning }: BoardProps): JSX.Element => {
   const board = useMemo(() => createBoard(BOARD_SIZE), []);
 
+  const [lost, setLost] = useState(false);
   const [score, setScore] = useState(0);
   const [snake, setSnake] = useState(
     new LinkedList(getStartingSnakeLLValue(board)),
@@ -171,20 +172,23 @@ const Board = ({ setIsGameRunning }: BoardProps): JSX.Element => {
     newSnakeCells.add(newTailCell);
   };
 
-  const handleGameOver = () => {
+  const handleStartGameOver = () => {
     setScore(0);
 
     const snakeLLStartingValue = getStartingSnakeLLValue(board);
     setSnake(new LinkedList(snakeLLStartingValue));
+
     setFoodCell(snakeLLStartingValue.cell + 5);
     setMineCells(new Set());
-
     setSnakeCells(new Set([snakeLLStartingValue.cell]));
+
     setDirection(DIRECTIONS.RIGHT);
-
     setSnakesSpeed(300);
+    setLost(false);
+  };
 
-    alert('Przegrałeś :(');
+  const handleGameOver = () => {
+    setLost(true);
   };
 
   const moveSnake = () => {
@@ -233,6 +237,30 @@ const Board = ({ setIsGameRunning }: BoardProps): JSX.Element => {
 
   return (
     <Stack className="board-container">
+      <Modal open={lost} onClose={() => {}}>
+        <Box className="modal-box">
+          <Typography variant="h3">Przegrałeś 🙁</Typography>
+          <Typography variant="h6" className="modal-score">
+            Twój wynik to: {score}
+          </Typography>
+          <Box className="button-container">
+            <Button
+              variant="contained"
+              color="success"
+              onClick={handleStartGameOver}
+            >
+              Graj Jeszcze Raz!
+            </Button>
+            <Button
+              variant="contained"
+              color="info"
+              onClick={() => setIsGameRunning(false)}
+            >
+              Powrót do menu
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
       <Box className="board">
         {board.map((row, rowIndex) => {
           return (
