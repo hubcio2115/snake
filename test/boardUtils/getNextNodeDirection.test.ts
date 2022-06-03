@@ -1,7 +1,7 @@
-import { getNextNodeDirection } from '../src/components/BoardUtils';
-import { LinkedListNode } from '../src/utils/classes';
-import { Cell } from '../src/utils/interfaces';
-import { DIRECTIONS } from '../src/utils/enums';
+import { getNextNodeDirection } from '../../src/components/BoardUtils';
+import { LinkedListNode } from '../../src/utils/classes';
+import { Cell } from '../../src/utils/interfaces';
+import { DIRECTIONS } from '../../src/utils/enums';
 
 describe('get direction of a next node', () => {
   it('returns the same direction, given null', () => {

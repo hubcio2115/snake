@@ -1,5 +1,5 @@
-import { getOppositeDirection } from '../src/components/BoardUtils';
-import { DIRECTIONS } from '../src/utils/enums';
+import { getOppositeDirection } from '../../src/components/BoardUtils';
+import { DIRECTIONS } from '../../src/utils/enums';
 
 describe('returns opposite of the given direction', () => {
   it('returns "DOWN", given "UP"', () => {

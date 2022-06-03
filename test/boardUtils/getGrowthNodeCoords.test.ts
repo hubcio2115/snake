@@ -1,7 +1,7 @@
-import { getGrowthNodeCoords } from '../src/components/BoardUtils';
-import { LinkedListNode } from '../src/utils/classes';
-import { DIRECTIONS } from '../src/utils/enums';
-import { Cell } from '../src/utils/interfaces';
+import { getGrowthNodeCoords } from '../../src/components/BoardUtils';
+import { LinkedListNode } from '../../src/utils/classes';
+import { DIRECTIONS } from '../../src/utils/enums';
+import { Cell } from '../../src/utils/interfaces';
 
 describe('get coords of a node that should be added to a linked list, on the opposite direction', () => {
   it('returns coords up of the tail', () => {

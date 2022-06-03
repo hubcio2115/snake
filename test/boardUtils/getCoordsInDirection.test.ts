@@ -1,5 +1,5 @@
-import { getCoordsInDirection } from '../src/components/BoardUtils';
-import { DIRECTIONS } from '../src/utils/enums';
+import { getCoordsInDirection } from '../../src/components/BoardUtils';
+import { DIRECTIONS } from '../../src/utils/enums';
 
 describe('returns coords object from given coords in given direction', () => {
   it('returns { row: currentRow - 1, col: currentCol }, given direction = "UP"', () => {
