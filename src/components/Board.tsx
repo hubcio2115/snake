@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Cell, LinkedListNode, LinkedList } from 'utils/classes';
-import { Coords } from 'utils/interfaces';
+import { LinkedListNode, LinkedList } from 'utils/classes';
+import { Coords, Cell } from 'utils/interfaces';
 import { DIRECTIONS } from 'utils/enums';
 import { randomIntFromInterval } from 'utils/lib';
 import {

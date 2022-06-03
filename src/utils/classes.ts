@@ -1,8 +1,4 @@
-export interface Cell {
-  row: number;
-  col: number;
-  cell: number;
-}
+import { Cell } from './interfaces';
 
 export interface LinkedListNode {
   value: Cell;
