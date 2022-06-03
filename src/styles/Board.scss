@@ -1,19 +1,27 @@
 $outline-color: #869abd;
 
-.board {
-  outline: 2px solid $outline-color;
+.board-container {
+  align-items: center;
+  gap: 20px;
 
-  .row {
-    height: 25px;
+  .board {
+    outline: 2px solid $outline-color;
+    display: flex;
+    flex-direction: column;
+    width: 500px;
 
-    .cell {
-      width: 25px;
+    .row {
       height: 25px;
-      outline: 1px solid $outline-color;
-      display: inline-block;
-      box-sizing: border-box;
-      overflow: hidden;
-      padding: 2px;
+      display: flex;
+
+      .cell {
+        width: 25px;
+        height: 25px;
+        outline: 1px solid $outline-color;
+        box-sizing: border-box;
+        overflow: hidden;
+        padding: 2px;
+      }
     }
   }
 }
