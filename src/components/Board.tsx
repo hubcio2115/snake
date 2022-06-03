@@ -54,6 +54,7 @@ const Board = (): JSX.Element => {
   };
 
   const [snakesSpeed, setSnakesSpeed] = useState(300);
+  const [foodLocationDelay, setFoodLocationDelay] = useState(10000);
 
   useEffect(() => {
     window.addEventListener('keydown', (event) => {
@@ -64,6 +65,10 @@ const Board = (): JSX.Element => {
   useInterval(() => {
     moveSnake();
   }, snakesSpeed);
+
+  useInterval(() => {
+    spawnFoodInNewLocation(snakeCells);
+  }, foodLocationDelay);
 
   const handleKeydown = (key: KeyboardEvent['key']) => {
     const newDirection = getDirectionFromKey(key);
@@ -77,20 +82,27 @@ const Board = (): JSX.Element => {
     setDirection(newDirection);
   };
 
-  const handleFoodConsumption = (newSnakeCells: Set<number>) => {
+  const spawnFoodInNewLocation = (snakeCells: Set<number>) => {
     const maxPossibleCellValue = BOARD_SIZE * BOARD_SIZE;
 
     let nextFoodCell;
     while (true) {
       nextFoodCell = randomIntFromInterval(1, maxPossibleCellValue);
-      if (newSnakeCells.has(nextFoodCell) || foodCell === nextFoodCell)
-        continue;
+      if (snakeCells.has(nextFoodCell) || foodCell === nextFoodCell) continue;
       break;
     }
 
-    if ((score + 1) % 5 === 0) setSnakesSpeed(snakesSpeed * 0.75);
+    foodLocationDelay === 10000
+      ? setFoodLocationDelay(foodLocationDelay - 1)
+      : setFoodLocationDelay(foodLocationDelay + 1);
 
     setFoodCell(nextFoodCell);
+  };
+
+  const handleFoodConsumption = (newSnakeCells: Set<number>) => {
+    spawnFoodInNewLocation(newSnakeCells);
+
+    if ((score + 1) % 5 === 0) setSnakesSpeed(snakesSpeed * 0.75);
     setScore(score + 1);
   };
 
@@ -243,7 +255,6 @@ const Board = (): JSX.Element => {
 
     const foodConsumed = nextHeadCell === foodCell;
     if (foodConsumed) {
-      // This function mutates newSnakeCells.
       growSnake(newSnakeCells);
       handleFoodConsumption(newSnakeCells);
     }
