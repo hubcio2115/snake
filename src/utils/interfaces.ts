@@ -8,3 +8,8 @@ export interface Cell {
   col: number;
   cell: number;
 }
+
+export interface LeaderBoardInterface {
+  name: string;
+  score: number;
+}
