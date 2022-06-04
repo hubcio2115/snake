@@ -1,11 +1,4 @@
-import {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { LinkedListNode, LinkedList } from 'utils/classes';
 import { Coords, Cell } from 'utils/interfaces';
 import { DIRECTIONS } from 'utils/enums';
@@ -21,6 +14,7 @@ import {
 import 'styles/Board.scss';
 import { useInterval } from 'utils/hooks';
 import { Box, Button, Modal, Stack, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const BOARD_SIZE = 20;
 
@@ -39,11 +33,7 @@ const getStartingSnakeLLValue = (board: number[][]): Cell => {
   };
 };
 
-interface BoardProps {
-  setIsGameRunning: Dispatch<SetStateAction<boolean>>;
-}
-
-const Board = ({ setIsGameRunning }: BoardProps): JSX.Element => {
+const Board = (): JSX.Element => {
   const board = useMemo(() => createBoard(BOARD_SIZE), []);
 
   const [lost, setLost] = useState(false);
@@ -73,11 +63,17 @@ const Board = ({ setIsGameRunning }: BoardProps): JSX.Element => {
   const [snakesSpeed, setSnakesSpeed] = useState(300);
   const [foodLocationDelay, setFoodLocationDelay] = useState(10000);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     window.addEventListener('keydown', (event) => {
       handleKeydown(event.key);
     });
   }, []);
+
+  useEffect(() => {
+    if (lost) setSnake(new LinkedList({ row: -1, col: -1, cell: -1 }));
+  }, [lost]);
 
   useInterval(() => {
     moveSnake();
@@ -94,7 +90,9 @@ const Board = ({ setIsGameRunning }: BoardProps): JSX.Element => {
   const handleKeydown = (key: KeyboardEvent['key']) => {
     const newDirection = getDirectionFromKey(key);
     const isValidDirection = newDirection !== '';
+
     if (!isValidDirection) return;
+
     const snakeWillRunIntoItself =
       getOppositeDirection(newDirection) === directionHookRef.current &&
       snakeCellsHookRef.current.size > 1;
@@ -173,6 +171,7 @@ const Board = ({ setIsGameRunning }: BoardProps): JSX.Element => {
   };
 
   const handleStartGameOver = () => {
+    setLost(false);
     setScore(0);
 
     const snakeLLStartingValue = getStartingSnakeLLValue(board);
@@ -184,7 +183,6 @@ const Board = ({ setIsGameRunning }: BoardProps): JSX.Element => {
 
     setDirection(DIRECTIONS.RIGHT);
     setSnakesSpeed(300);
-    setLost(false);
   };
 
   const handleGameOver = () => {
@@ -254,7 +252,7 @@ const Board = ({ setIsGameRunning }: BoardProps): JSX.Element => {
             <Button
               variant="contained"
               color="info"
-              onClick={() => setIsGameRunning(false)}
+              onClick={() => navigate('/')}
             >
               Powrót do menu
             </Button>
@@ -270,7 +268,7 @@ const Board = ({ setIsGameRunning }: BoardProps): JSX.Element => {
                   <Box
                     key={cellIndex}
                     className="cell"
-                    style={{
+                    sx={{
                       backgroundColor: snakeCells.has(cellValue) ? 'green' : '',
                     }}
                   >
