@@ -1,8 +1,8 @@
-import Game from 'components/Game/Game';
 import { AppBar, Typography } from '@mui/material';
 import { Box, Container } from '@mui/system';
-import StartingScreen from 'components/StartingScreen';
 import { Route, Routes, useNavigate } from 'react-router-dom';
+import GameView from 'views/GameView/GameView';
+import StartingScreenView from 'views/StartingScreenView';
 import 'styles/App.scss';
 
 const App = (): JSX.Element => {
@@ -18,8 +18,8 @@ const App = (): JSX.Element => {
 
       <Container className="container">
         <Routes>
-          <Route path="/" element={<StartingScreen />} />
-          <Route path="game" element={<Game />} />
+          <Route path="/" element={<StartingScreenView />} />
+          <Route path="game" element={<GameView />} />
         </Routes>
       </Container>
     </Box>

@@ -1,4 +1,4 @@
-import { getOppositeDirection } from '../../src/components/Game/GameUtils';
+import { getOppositeDirection } from '../../src/views/GameView/GameUtils';
 import { DIRECTIONS } from '../../src/utils/enums';
 
 describe('returns opposite of the given direction', () => {

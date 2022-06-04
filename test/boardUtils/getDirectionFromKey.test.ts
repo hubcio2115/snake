@@ -1,4 +1,4 @@
-import { getDirectionFromKey } from '../../src/components/Game/GameUtils';
+import { getDirectionFromKey } from '../../src/views/GameView/GameUtils';
 
 describe('returns correct direction after getting key from an keydown event', () => {
   it('returns "UP", given key = ArrowUp', () => {

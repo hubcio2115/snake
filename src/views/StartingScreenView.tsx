@@ -2,7 +2,7 @@ import { Button, Stack } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import 'styles/StartingScreen.scss';
 
-const StartingScreen = () => {
+const StartingScreenView = () => {
   const navigate = useNavigate();
 
   return (
@@ -18,4 +18,4 @@ const StartingScreen = () => {
     </Stack>
   );
 };
-export default StartingScreen;
+export default StartingScreenView;

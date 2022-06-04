@@ -1,4 +1,4 @@
-import { getGrowthNodeCoords } from '../../src/components/Game/GameUtils';
+import { getGrowthNodeCoords } from '../../src/views/GameView/GameUtils';
 import { LinkedListNode } from '../../src/utils/classes';
 import { DIRECTIONS } from '../../src/utils/enums';
 import { Cell } from '../../src/utils/interfaces';

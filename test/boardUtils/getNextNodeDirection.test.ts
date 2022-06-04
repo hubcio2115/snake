@@ -1,4 +1,4 @@
-import { getNextNodeDirection } from '../../src/components/Game/GameUtils';
+import { getNextNodeDirection } from '../../src/views/GameView/GameUtils';
 import { LinkedListNode } from '../../src/utils/classes';
 import { Cell } from '../../src/utils/interfaces';
 import { DIRECTIONS } from '../../src/utils/enums';
