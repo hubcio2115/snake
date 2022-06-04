@@ -1,5 +1,6 @@
 import { Button, Stack } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import 'styles/StartingScreen.scss';
 
 const StartingScreen = () => {
   const navigate = useNavigate();
@@ -9,7 +10,7 @@ const StartingScreen = () => {
       <Button
         variant="contained"
         color="success"
-        sx={{ width: '200px' }}
+        className="start-button"
         onClick={() => navigate('game')}
       >
         Start Game

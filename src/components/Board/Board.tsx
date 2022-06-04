@@ -268,7 +268,7 @@ const Board = (): JSX.Element => {
                   <Box
                     key={cellIndex}
                     className="cell"
-                    style={{
+                    sx={{
                       backgroundColor: snakeCells.has(cellValue) ? 'green' : '',
                     }}
                   >
