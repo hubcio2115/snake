@@ -237,9 +237,9 @@ const Board = (): JSX.Element => {
     <Stack className="board-container">
       <Modal open={lost} onClose={() => {}}>
         <Box className="modal-box">
-          <Typography variant="h3">Przegrałeś 🙁</Typography>
+          <Typography variant="h3">You lost 🙁</Typography>
           <Typography variant="h6" className="modal-score">
-            Twój wynik to: {score}
+            Your final score: {score}
           </Typography>
           <Box className="button-container">
             <Button
@@ -247,14 +247,14 @@ const Board = (): JSX.Element => {
               color="success"
               onClick={handleStartGameOver}
             >
-              Graj Jeszcze Raz!
+              Play Again
             </Button>
             <Button
               variant="contained"
               color="info"
               onClick={() => navigate('/')}
             >
-              Powrót do menu
+              Back To Menu
             </Button>
           </Box>
         </Box>
