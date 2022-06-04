@@ -1,4 +1,4 @@
-import { createBoard } from '../../src/components/Board/BoardUtils';
+import { createBoard } from '../../src/components/Game/GameUtils';
 
 describe('create board function', () => {
   it('creates board with boardSize = 5', () => {

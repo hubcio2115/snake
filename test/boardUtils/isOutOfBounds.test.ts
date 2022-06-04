@@ -1,4 +1,4 @@
-import { isOutOfBounds } from '../../src/components/Board/BoardUtils';
+import { isOutOfBounds } from '../../src/components/Game/GameUtils';
 
 describe('checks if given coords are within board', () => {
   it('for board with boardSize = 5 returns true for coords row = 6 and col = 0', () => {

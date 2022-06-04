@@ -1,4 +1,4 @@
-import Board from 'components/Board/Board';
+import Game from 'components/Game/Game';
 import { AppBar, Typography } from '@mui/material';
 import { Box, Container } from '@mui/system';
 import StartingScreen from 'components/StartingScreen';
@@ -19,7 +19,7 @@ const App = (): JSX.Element => {
       <Container className="container">
         <Routes>
           <Route path="/" element={<StartingScreen />} />
-          <Route path="game" element={<Board />} />
+          <Route path="game" element={<Game />} />
         </Routes>
       </Container>
     </Box>

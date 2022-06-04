@@ -10,7 +10,7 @@ import {
   getOppositeDirection,
   getGrowthNodeCoords,
   getCoordsInDirection,
-} from './BoardUtils';
+} from './GameUtils';
 import 'styles/Board.scss';
 import { useInterval } from 'utils/hooks';
 import { Box, Button, Modal, Stack, Typography } from '@mui/material';
@@ -33,7 +33,7 @@ const getStartingSnakeLLValue = (board: number[][]): Cell => {
   };
 };
 
-const Board = (): JSX.Element => {
+const Game = (): JSX.Element => {
   const board = useMemo(() => createBoard(BOARD_SIZE), []);
 
   const [lost, setLost] = useState(false);
@@ -286,4 +286,4 @@ const Board = (): JSX.Element => {
   );
 };
 
-export default Board;
+export default Game;
