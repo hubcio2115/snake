@@ -1,6 +1,6 @@
 # Snake
 
-Hello this is recruitment exercise I've done in the recruitment process.
+Hello this is technical exercise I've done during the recruitment process.
 
 ### Available scripts
 
