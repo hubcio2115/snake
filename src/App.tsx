@@ -1,17 +1,20 @@
+import { useEffect, useState } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
+import { initializeApp } from 'firebase/app';
+import { getDatabase, ref, get, child } from 'firebase/database';
+
+import { LeaderBoardContext } from 'context/LeaderBoardContext';
+
 import { AppBar, Typography } from '@mui/material';
 import { Box, Container } from '@mui/system';
 
-import { initializeApp } from 'firebase/app';
-import { getDatabase, ref, get, child } from 'firebase/database';
 import firebaseConfig from 'api/config';
+import { LeaderBoardInterface } from 'utils/interfaces';
 
 import GameView from 'views/GameView/GameView';
 import StartingScreenView from 'views/StartingScreenView';
 
 import 'styles/App.scss';
-import { useEffect, useState } from 'react';
-import { LeaderBoardInterface } from 'utils/interfaces';
 
 const App = (): JSX.Element => {
   const navigate = useNavigate();
@@ -43,18 +46,19 @@ const App = (): JSX.Element => {
       </AppBar>
 
       <Container className="container">
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <StartingScreenView
-                leaderBoard={leaderBoard}
-                isLeaderBoardLoading={isLeaderBoardLoading}
-              />
-            }
-          />
-          <Route path="game" element={<GameView />} />
-        </Routes>
+        <LeaderBoardContext.Provider value={[leaderBoard, setLeaderBoard]}>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <StartingScreenView
+                  isLeaderBoardLoading={isLeaderBoardLoading}
+                />
+              }
+            />
+            <Route path="game" element={<GameView />} />
+          </Routes>
+        </LeaderBoardContext.Provider>
       </Container>
     </Box>
   );

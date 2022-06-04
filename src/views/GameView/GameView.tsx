@@ -13,7 +13,7 @@ import {
 } from './GameUtils';
 import 'styles/Board.scss';
 import { useInterval } from 'utils/hooks';
-import { Box, Button, Modal, Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import LoseModal from 'components/LoseModal';
 
