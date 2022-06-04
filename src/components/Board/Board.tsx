@@ -1,11 +1,4 @@
-import {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { LinkedListNode, LinkedList } from 'utils/classes';
 import { Coords, Cell } from 'utils/interfaces';
 import { DIRECTIONS } from 'utils/enums';
@@ -21,6 +14,7 @@ import {
 import 'styles/Board.scss';
 import { useInterval } from 'utils/hooks';
 import { Box, Button, Modal, Stack, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const BOARD_SIZE = 20;
 
@@ -39,11 +33,7 @@ const getStartingSnakeLLValue = (board: number[][]): Cell => {
   };
 };
 
-interface BoardProps {
-  setIsGameRunning: Dispatch<SetStateAction<boolean>>;
-}
-
-const Board = ({ setIsGameRunning }: BoardProps): JSX.Element => {
+const Board = (): JSX.Element => {
   const board = useMemo(() => createBoard(BOARD_SIZE), []);
 
   const [lost, setLost] = useState(false);
@@ -72,6 +62,8 @@ const Board = ({ setIsGameRunning }: BoardProps): JSX.Element => {
 
   const [snakesSpeed, setSnakesSpeed] = useState(300);
   const [foodLocationDelay, setFoodLocationDelay] = useState(10000);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     window.addEventListener('keydown', (event) => {
@@ -254,7 +246,7 @@ const Board = ({ setIsGameRunning }: BoardProps): JSX.Element => {
             <Button
               variant="contained"
               color="info"
-              onClick={() => setIsGameRunning(false)}
+              onClick={() => navigate('/')}
             >
               Powrót do menu
             </Button>
