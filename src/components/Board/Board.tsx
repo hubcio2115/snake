@@ -71,6 +71,10 @@ const Board = (): JSX.Element => {
     });
   }, []);
 
+  useEffect(() => {
+    if (lost) setSnake(new LinkedList({ row: -1, col: -1, cell: -1 }));
+  }, [lost]);
+
   useInterval(() => {
     moveSnake();
   }, snakesSpeed);
@@ -86,7 +90,9 @@ const Board = (): JSX.Element => {
   const handleKeydown = (key: KeyboardEvent['key']) => {
     const newDirection = getDirectionFromKey(key);
     const isValidDirection = newDirection !== '';
+
     if (!isValidDirection) return;
+
     const snakeWillRunIntoItself =
       getOppositeDirection(newDirection) === directionHookRef.current &&
       snakeCellsHookRef.current.size > 1;
@@ -165,6 +171,7 @@ const Board = (): JSX.Element => {
   };
 
   const handleStartGameOver = () => {
+    setLost(false);
     setScore(0);
 
     const snakeLLStartingValue = getStartingSnakeLLValue(board);
@@ -176,7 +183,6 @@ const Board = (): JSX.Element => {
 
     setDirection(DIRECTIONS.RIGHT);
     setSnakesSpeed(300);
-    setLost(false);
   };
 
   const handleGameOver = () => {
