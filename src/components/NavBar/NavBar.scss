@@ -1,6 +1,8 @@
+@import '../../index.scss';
+
 .app-bar {
   padding: 10px;
-  background-color: #282c34;
+  background-color: $app-background-color;
 
   .logo {
     cursor: pointer;
