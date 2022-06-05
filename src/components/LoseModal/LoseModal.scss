@@ -22,3 +22,18 @@
     gap: 50px;
   }
 }
+
+.modal-header {
+  padding-bottom: 10px;
+}
+
+.add-score-form-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .form-control {
+    color: white;
+    gap: 10px;
+  }
+}

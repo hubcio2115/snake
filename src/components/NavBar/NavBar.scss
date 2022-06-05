@@ -1,0 +1,10 @@
+@import '../../index.scss';
+
+.app-bar {
+  padding: 10px;
+  background-color: $app-background-color;
+
+  .logo {
+    cursor: pointer;
+  }
+}

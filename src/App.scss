@@ -1,19 +1,12 @@
+@import './index.scss';
+
 .app {
   text-align: center;
-  background-color: #282c34;
+  background-color: $app-background-color;
   color: white;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-
-  .app-bar {
-    padding: 10px;
-    background-color: #282c34;
-
-    .logo {
-      cursor: pointer;
-    }
-  }
 
   .container {
     display: flex;
