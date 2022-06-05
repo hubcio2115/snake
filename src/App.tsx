@@ -13,7 +13,7 @@ import firebaseConfig from 'api/config';
 import { LeaderBoardInterface } from 'utils/interfaces';
 
 import GameView from 'views/GameView/GameView';
-import StartingScreenView from 'views/StartingScreenView';
+import StartingScreenView from 'views/StartinScreenView/StartingScreenView';
 import NavBar from 'components/NavBar';
 
 import 'styles/App.scss';

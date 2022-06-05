@@ -1,4 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { Box, Stack, Typography } from '@mui/material';
+
+import LoseModal from 'components/LoseModal/LoseModal';
+
 import { LinkedListNode, LinkedList } from 'utils/classes';
 import { Coords, Cell } from 'utils/interfaces';
 import { DIRECTIONS } from 'utils/enums';
@@ -11,11 +17,8 @@ import {
   getGrowthNodeCoords,
   getCoordsInDirection,
 } from './GameUtils';
-import 'styles/Board.scss';
 import { useInterval } from 'utils/hooks';
-import { Box, Stack, Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import LoseModal from 'components/LoseModal';
+import 'styles/Board.scss';
 
 const BOARD_SIZE = 20;
 
