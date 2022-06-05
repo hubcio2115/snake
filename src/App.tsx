@@ -15,6 +15,13 @@ import GameView from 'views/GameView/GameView';
 import StartingScreenView from 'views/StartingScreenView';
 
 import 'styles/App.scss';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
 
 const App = (): JSX.Element => {
   const navigate = useNavigate();
@@ -28,8 +35,9 @@ const App = (): JSX.Element => {
     (async () => {
       try {
         const snapshot = await get(child(dbRef, 'leaderboard'));
-        if (snapshot.exists()) setLeaderBoard(snapshot.val());
-        else console.log('no data available');
+        if (snapshot.exists() && snapshot.val() !== '')
+          setLeaderBoard(snapshot.val());
+
         setIsLeaderBoardLoading(false);
       } catch (error) {
         console.error(error);
@@ -38,29 +46,31 @@ const App = (): JSX.Element => {
   }, []);
 
   return (
-    <Box className="app">
-      <AppBar position="static" className="app-bar">
-        <a className="logo" onClick={() => navigate('/')}>
-          <Typography variant="h3">Snake 🐍</Typography>
-        </a>
-      </AppBar>
+    <ThemeProvider theme={darkTheme}>
+      <Box className="app">
+        <AppBar position="static" className="app-bar">
+          <a className="logo" onClick={() => navigate('/')}>
+            <Typography variant="h3">Snake 🐍</Typography>
+          </a>
+        </AppBar>
 
-      <Container className="container">
-        <LeaderBoardContext.Provider value={[leaderBoard, setLeaderBoard]}>
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <StartingScreenView
-                  isLeaderBoardLoading={isLeaderBoardLoading}
-                />
-              }
-            />
-            <Route path="game" element={<GameView />} />
-          </Routes>
-        </LeaderBoardContext.Provider>
-      </Container>
-    </Box>
+        <Container className="container">
+          <LeaderBoardContext.Provider value={[leaderBoard, setLeaderBoard]}>
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <StartingScreenView
+                    isLeaderBoardLoading={isLeaderBoardLoading}
+                  />
+                }
+              />
+              <Route path="game" element={<GameView />} />
+            </Routes>
+          </LeaderBoardContext.Provider>
+        </Container>
+      </Box>
+    </ThemeProvider>
   );
 };
 
