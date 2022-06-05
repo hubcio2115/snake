@@ -1,5 +1,7 @@
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getDatabase, ref, set } from 'firebase/database';
+
 import {
   Box,
   Button,
@@ -9,10 +11,10 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+
 import { LeaderBoardContext } from 'context/LeaderBoardContext';
 
-import { getDatabase, ref, set } from 'firebase/database';
-import 'styles/Modal.scss';
+import './LoseModal.scss';
 
 interface LoseModalProps {
   lost: boolean;
@@ -54,28 +56,20 @@ const LoseModal = ({ lost, score, handleStartGameOver }: LoseModalProps) => {
     <Modal open={lost} onClose={() => {}}>
       <Box className="modal-box">
         <Stack>
-          <Typography variant="h4" pb={1}>
+          <Typography variant="h4" className="modal-header">
             {sentNewEntry
               ? 'You are now in the leaderboard!'
               : isApplicableToBeInLeaderBoard()
               ? 'Congratulations you beat someone in the leader board! 🎉 '
               : 'You lost 🙁'}
           </Typography>
-          <Typography variant="h5" className="modal-score">
-            Your final score: {score}
-          </Typography>
+          <Typography variant="h5">Your final score: {score}</Typography>
         </Stack>
 
         {isApplicableToBeInLeaderBoard() || sentNewEntry ? (
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
+          <Box className="add-score-form-box">
             {sentNewEntry ? null : (
-              <FormControl sx={{ color: 'white', gap: '10px' }}>
+              <FormControl className="form-control">
                 <TextField
                   label="Name"
                   variant="outlined"

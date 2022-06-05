@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import { Box, Stack, Typography } from '@mui/material';
 
@@ -9,6 +8,8 @@ import { LinkedListNode, LinkedList } from 'utils/classes';
 import { Coords, Cell } from 'utils/interfaces';
 import { DIRECTIONS } from 'utils/enums';
 import { randomIntFromInterval } from 'utils/lib';
+import { useInterval } from 'utils/hooks';
+
 import {
   createBoard,
   getDirectionFromKey,
@@ -17,8 +18,8 @@ import {
   getGrowthNodeCoords,
   getCoordsInDirection,
 } from './GameUtils';
-import { useInterval } from 'utils/hooks';
-import 'styles/Board.scss';
+
+import './GameView.scss';
 
 const BOARD_SIZE = 20;
 
@@ -66,8 +67,6 @@ const GameView = (): JSX.Element => {
 
   const [snakesSpeed, setSnakesSpeed] = useState(300);
   const [foodLocationDelay, setFoodLocationDelay] = useState(10000);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     window.addEventListener('keydown', (event) => {
@@ -184,6 +183,8 @@ const GameView = (): JSX.Element => {
     setFoodCell(snakeLLStartingValue.cell + 5);
     setMineCells(new Set());
     setSnakeCells(new Set([snakeLLStartingValue.cell]));
+
+    setFoodLocationDelay(10000);
 
     setDirection(DIRECTIONS.RIGHT);
     setSnakesSpeed(300);

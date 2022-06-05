@@ -1,3 +1,5 @@
+import { useContext } from 'react';
+
 import {
   CircularProgress,
   List,
@@ -6,8 +8,10 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+
 import { LeaderBoardContext } from 'context/LeaderBoardContext';
-import { useContext } from 'react';
+
+import './LeaderBoard.scss';
 
 interface LeaderBoardProps {
   isLeaderBoardLoading: boolean;
@@ -16,17 +20,14 @@ const LeaderBoard = ({ isLeaderBoardLoading }: LeaderBoardProps) => {
   const [leaderBoard] = useContext(LeaderBoardContext);
 
   return (
-    <Stack minHeight={558}>
+    <Stack className="leader-board-stack">
       <Typography variant="h4" pb={isLeaderBoardLoading ? 4 : 0}>
         Leader Board
       </Typography>
       {isLeaderBoardLoading ? (
-        <CircularProgress
-          color="primary"
-          sx={{ alignSelf: 'center', justifySelf: 'center' }}
-        />
+        <CircularProgress color="primary" className="progress-circle" />
       ) : (
-        <List style={{ textAlign: 'left', listStyleType: 'decimal' }}>
+        <List className="list">
           {leaderBoard.length === 0 ? (
             <Typography variant="body1">
               There are no registered records yet, be the first to play the
@@ -35,7 +36,7 @@ const LeaderBoard = ({ isLeaderBoardLoading }: LeaderBoardProps) => {
           ) : (
             leaderBoard.map((entry, index) => {
               return (
-                <ListItem key={index} sx={{ display: 'list-item' }}>
+                <ListItem key={index} className="list-item">
                   <ListItemText>
                     {entry.name}: {entry.score}
                   </ListItemText>

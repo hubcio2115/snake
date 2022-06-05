@@ -14,9 +14,9 @@ import { LeaderBoardInterface } from 'utils/interfaces';
 
 import GameView from 'views/GameView/GameView';
 import StartingScreenView from 'views/StartinScreenView/StartingScreenView';
-import NavBar from 'components/NavBar';
+import NavBar from 'components/NavBar/NavBar';
 
-import 'styles/App.scss';
+import './App.scss';
 
 const darkTheme = createTheme({
   palette: {

@@ -1,8 +1,8 @@
 import { Button, Stack } from '@mui/material';
-import LeaderBoard from 'components/LeaderBoard';
+import LeaderBoard from 'components/LeaderBoard/LeaderBoard';
 import { useNavigate } from 'react-router-dom';
-import 'styles/StartingScreen.scss';
-import { LeaderBoardInterface } from 'utils/interfaces';
+
+import './StartingScreen.scss';
 
 interface StartingScreenViewProps {
   isLeaderBoardLoading: boolean;
@@ -14,7 +14,7 @@ const StartingScreenView = ({
   const navigate = useNavigate();
 
   return (
-    <Stack sx={{ alignItems: 'center', gap: 10 }}>
+    <Stack className="start-stack">
       <Button
         variant="contained"
         color="success"

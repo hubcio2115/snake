@@ -6,15 +6,6 @@
   display: flex;
   flex-direction: column;
 
-  .app-bar {
-    padding: 10px;
-    background-color: #282c34;
-
-    .logo {
-      cursor: pointer;
-    }
-  }
-
   .container {
     display: flex;
     flex-direction: column;
