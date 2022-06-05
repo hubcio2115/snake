@@ -1,0 +1,123 @@
+import { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import {
+  Box,
+  Button,
+  FormControl,
+  Modal,
+  Stack,
+  TextField,
+  Typography,
+} from '@mui/material';
+import { LeaderBoardContext } from 'context/LeaderBoardContext';
+
+import { getDatabase, ref, set } from 'firebase/database';
+import 'styles/Modal.scss';
+
+interface LoseModalProps {
+  lost: boolean;
+  score: number;
+  handleStartGameOver: () => void;
+}
+
+const LoseModal = ({ lost, score, handleStartGameOver }: LoseModalProps) => {
+  const navigate = useNavigate();
+
+  const [leaderBoard, setLeaderBoard] = useContext(LeaderBoardContext);
+
+  const [name, setName] = useState('');
+  const [sentNewEntry, setSentNewEntry] = useState(false);
+
+  const isApplicableToBeInLeaderBoard = () => {
+    const indexOfLastElement = leaderBoard.length - 1;
+
+    if (indexOfLastElement === -1) return true;
+    if (leaderBoard[indexOfLastElement] === undefined) return false;
+
+    return score > leaderBoard[indexOfLastElement].score;
+  };
+
+  const handleSetNewLeaderBoard = () => {
+    const newEntry = { name, score };
+    const newLeaderBoard = [...leaderBoard, newEntry]
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 10);
+
+    const db = getDatabase();
+    set(ref(db, 'leaderboard'), newLeaderBoard);
+
+    setSentNewEntry(true);
+    setLeaderBoard(newLeaderBoard);
+  };
+
+  return (
+    <Modal open={lost} onClose={() => {}}>
+      <Box className="modal-box">
+        <Stack>
+          <Typography variant="h4" pb={1}>
+            {sentNewEntry
+              ? 'You are now in the leaderboard!'
+              : isApplicableToBeInLeaderBoard()
+              ? 'Congratulations you beat someone in the leader board! 🎉 '
+              : 'You lost 🙁'}
+          </Typography>
+          <Typography variant="h5" className="modal-score">
+            Your final score: {score}
+          </Typography>
+        </Stack>
+
+        {isApplicableToBeInLeaderBoard() || sentNewEntry ? (
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            {sentNewEntry ? null : (
+              <FormControl sx={{ color: 'white', gap: '10px' }}>
+                <TextField
+                  label="Name"
+                  variant="outlined"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+                <Button
+                  disabled={name.length === 0}
+                  onClick={handleSetNewLeaderBoard}
+                  variant="contained"
+                  color="warning"
+                >
+                  Send
+                </Button>
+              </FormControl>
+            )}
+          </Box>
+        ) : null}
+
+        <Box className="button-container">
+          <Button
+            variant="contained"
+            color="success"
+            onClick={() => {
+              handleStartGameOver();
+              setSentNewEntry(false);
+              setName('');
+            }}
+          >
+            Play Again
+          </Button>
+          <Button
+            variant="contained"
+            color="info"
+            onClick={() => navigate('/')}
+          >
+            Back To Menu
+          </Button>
+        </Box>
+      </Box>
+    </Modal>
+  );
+};
+
+export default LoseModal;

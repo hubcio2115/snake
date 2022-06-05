@@ -6,16 +6,15 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { LeaderBoardInterface } from 'utils/interfaces';
+import { LeaderBoardContext } from 'context/LeaderBoardContext';
+import { useContext } from 'react';
 
 interface LeaderBoardProps {
-  leaderBoard: LeaderBoardInterface[];
   isLeaderBoardLoading: boolean;
 }
-const LeaderBoard = ({
-  leaderBoard,
-  isLeaderBoardLoading,
-}: LeaderBoardProps) => {
+const LeaderBoard = ({ isLeaderBoardLoading }: LeaderBoardProps) => {
+  const [leaderBoard] = useContext(LeaderBoardContext);
+
   return (
     <Stack minHeight={558}>
       <Typography variant="h4" pb={isLeaderBoardLoading ? 4 : 0}>

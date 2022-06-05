@@ -13,8 +13,9 @@ import {
 } from './GameUtils';
 import 'styles/Board.scss';
 import { useInterval } from 'utils/hooks';
-import { Box, Button, Modal, Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import LoseModal from 'components/LoseModal';
 
 const BOARD_SIZE = 20;
 
@@ -235,30 +236,11 @@ const GameView = (): JSX.Element => {
 
   return (
     <Stack className="board-container">
-      <Modal open={lost} onClose={() => {}}>
-        <Box className="modal-box">
-          <Typography variant="h3">You lost 🙁</Typography>
-          <Typography variant="h6" className="modal-score">
-            Your final score: {score}
-          </Typography>
-          <Box className="button-container">
-            <Button
-              variant="contained"
-              color="success"
-              onClick={handleStartGameOver}
-            >
-              Play Again
-            </Button>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={() => navigate('/')}
-            >
-              Back To Menu
-            </Button>
-          </Box>
-        </Box>
-      </Modal>
+      <LoseModal
+        lost={lost}
+        score={score}
+        handleStartGameOver={handleStartGameOver}
+      />
       <Box className="board">
         {board.map((row, rowIndex) => {
           return (

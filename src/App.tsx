@@ -1,17 +1,27 @@
+import { useEffect, useState } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
+import { initializeApp } from 'firebase/app';
+import { getDatabase, ref, get, child } from 'firebase/database';
+
+import { LeaderBoardContext } from 'context/LeaderBoardContext';
+
 import { AppBar, Typography } from '@mui/material';
 import { Box, Container } from '@mui/system';
 
-import { initializeApp } from 'firebase/app';
-import { getDatabase, ref, get, child } from 'firebase/database';
 import firebaseConfig from 'api/config';
+import { LeaderBoardInterface } from 'utils/interfaces';
 
 import GameView from 'views/GameView/GameView';
 import StartingScreenView from 'views/StartingScreenView';
 
 import 'styles/App.scss';
-import { useEffect, useState } from 'react';
-import { LeaderBoardInterface } from 'utils/interfaces';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
 
 const App = (): JSX.Element => {
   const navigate = useNavigate();
@@ -25,8 +35,9 @@ const App = (): JSX.Element => {
     (async () => {
       try {
         const snapshot = await get(child(dbRef, 'leaderboard'));
-        if (snapshot.exists()) setLeaderBoard(snapshot.val());
-        else console.log('no data available');
+        if (snapshot.exists() && snapshot.val() !== '')
+          setLeaderBoard(snapshot.val());
+
         setIsLeaderBoardLoading(false);
       } catch (error) {
         console.error(error);
@@ -35,28 +46,31 @@ const App = (): JSX.Element => {
   }, []);
 
   return (
-    <Box className="app">
-      <AppBar position="static" className="app-bar">
-        <a className="logo" onClick={() => navigate('/')}>
-          <Typography variant="h3">Snake 🐍</Typography>
-        </a>
-      </AppBar>
+    <ThemeProvider theme={darkTheme}>
+      <Box className="app">
+        <AppBar position="static" className="app-bar">
+          <a className="logo" onClick={() => navigate('/')}>
+            <Typography variant="h3">Snake 🐍</Typography>
+          </a>
+        </AppBar>
 
-      <Container className="container">
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <StartingScreenView
-                leaderBoard={leaderBoard}
-                isLeaderBoardLoading={isLeaderBoardLoading}
+        <Container className="container">
+          <LeaderBoardContext.Provider value={[leaderBoard, setLeaderBoard]}>
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <StartingScreenView
+                    isLeaderBoardLoading={isLeaderBoardLoading}
+                  />
+                }
               />
-            }
-          />
-          <Route path="game" element={<GameView />} />
-        </Routes>
-      </Container>
-    </Box>
+              <Route path="game" element={<GameView />} />
+            </Routes>
+          </LeaderBoardContext.Provider>
+        </Container>
+      </Box>
+    </ThemeProvider>
   );
 };
 

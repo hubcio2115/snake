@@ -5,12 +5,10 @@ import 'styles/StartingScreen.scss';
 import { LeaderBoardInterface } from 'utils/interfaces';
 
 interface StartingScreenViewProps {
-  leaderBoard: LeaderBoardInterface[];
   isLeaderBoardLoading: boolean;
 }
 
 const StartingScreenView = ({
-  leaderBoard,
   isLeaderBoardLoading,
 }: StartingScreenViewProps) => {
   const navigate = useNavigate();
@@ -25,10 +23,7 @@ const StartingScreenView = ({
       >
         Start Game
       </Button>
-      <LeaderBoard
-        leaderBoard={leaderBoard}
-        isLeaderBoardLoading={isLeaderBoardLoading}
-      />
+      <LeaderBoard isLeaderBoardLoading={isLeaderBoardLoading} />
     </Stack>
   );
 };
