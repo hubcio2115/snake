@@ -87,7 +87,7 @@ export default function GameView(): JSX.Element {
       handleKeydown(event.key);
     };
 
-    const listener = window.addEventListener('keydown', respondOnKeyDown);
+    window.addEventListener('keydown', respondOnKeyDown);
 
     return () => {
       window.removeEventListener('keydown', respondOnKeyDown);
