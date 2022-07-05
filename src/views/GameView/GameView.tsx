@@ -83,9 +83,15 @@ export default function GameView(): JSX.Element {
       setDirection(newDirection);
     };
 
-    window.addEventListener('keydown', (event) => {
+    const respondOnKeyDown = (event: KeyboardEvent) => {
       handleKeydown(event.key);
-    });
+    };
+
+    const listener = window.addEventListener('keydown', respondOnKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', respondOnKeyDown);
+    };
   }, []);
 
   useEffect(() => {
