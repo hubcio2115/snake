@@ -46,24 +46,17 @@ export default function GameView(): JSX.Element {
   const [snake, setSnake] = useState(
     new LinkedList(getStartingSnakeLLValue(board)),
   );
-  const [snakeCells, _setSnakeCells] = useState(
+  const [snakeCells, setSnakeCells] = useState(
     new Set([snake.head.value.cell]),
   );
-  const snakeCellsHookRef = useRef(snakeCells);
-  const setSnakeCells = (newSnakeCells: Set<number>) => {
-    snakeCellsHookRef.current = newSnakeCells;
-    _setSnakeCells(newSnakeCells);
-  };
 
   const [foodCell, setFoodCell] = useState(snake.head.value.cell + 5);
   const [mineCells, setMineCells] = useState(new Set<number>([]));
 
-  const [direction, _setDirection] = useState(DIRECTIONS.RIGHT);
-  const directionHookRef = useRef(direction);
-  const setDirection = (direction: DIRECTIONS) => {
-    directionHookRef.current = direction;
-    _setDirection(direction);
-  };
+  const [direction, setDirection] = useState(DIRECTIONS.RIGHT);
+  const [previousOppositeDirection, setPreviousOppositeDirection] = useState(
+    getOppositeDirection(direction),
+  );
 
   const [snakesSpeed, setSnakesSpeed] = useState(300);
   const [foodLocationDelay, setFoodLocationDelay] = useState(10000);
@@ -75,11 +68,9 @@ export default function GameView(): JSX.Element {
 
       if (!isValidDirection) return;
 
-      const snakeWillRunIntoItself =
-        getOppositeDirection(newDirection) === directionHookRef.current &&
-        snakeCellsHookRef.current.size > 1;
+      if (previousOppositeDirection === newDirection && snakeCells.size > 1)
+        return;
 
-      if (snakeWillRunIntoItself) return;
       setDirection(newDirection);
     };
 
@@ -92,7 +83,7 @@ export default function GameView(): JSX.Element {
     return () => {
       window.removeEventListener('keydown', respondOnKeyDown);
     };
-  }, []);
+  }, [direction, previousOppositeDirection]);
 
   useEffect(() => {
     if (lost) setSnake(new LinkedList({ row: -1, col: -1, cell: -1 }));
@@ -241,6 +232,7 @@ export default function GameView(): JSX.Element {
       handleFoodConsumption(newSnakeCells);
     }
 
+    setPreviousOppositeDirection(getOppositeDirection(direction));
     setSnakeCells(newSnakeCells);
   };
 
