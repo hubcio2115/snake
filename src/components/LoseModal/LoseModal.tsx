@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState } from 'preact/hooks';
 import { useNavigate } from 'react-router-dom';
 import { getDatabase, ref, set } from 'firebase/database';
 
@@ -58,7 +58,7 @@ const LoseModal = ({ lost, score, handleStartGameOver }: LoseModalProps) => {
         <Stack>
           <Typography variant="h4" className="modal-header">
             {sentNewEntry
-              ? 'You are now in the leaderboard!'
+              ? 'You are now in the leader board!'
               : isApplicableToBeInLeaderBoard()
               ? 'Congratulations you beat someone in the leader board! 🎉 '
               : 'You lost 🙁'}

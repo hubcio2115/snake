@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 
 import { Box, Stack, Typography } from '@mui/material';
 
@@ -69,6 +69,20 @@ const GameView = (): JSX.Element => {
   const [foodLocationDelay, setFoodLocationDelay] = useState(10000);
 
   useEffect(() => {
+    const handleKeydown = (key: KeyboardEvent['key']) => {
+      const newDirection = getDirectionFromKey(key);
+      const isValidDirection = newDirection !== '';
+
+      if (!isValidDirection) return;
+
+      const snakeWillRunIntoItself =
+        getOppositeDirection(newDirection) === directionHookRef.current &&
+        snakeCellsHookRef.current.size > 1;
+
+      if (snakeWillRunIntoItself) return;
+      setDirection(newDirection);
+    };
+
     window.addEventListener('keydown', (event) => {
       handleKeydown(event.key);
     });
@@ -89,20 +103,6 @@ const GameView = (): JSX.Element => {
   useInterval(() => {
     spawnMine();
   }, 30000);
-
-  const handleKeydown = (key: KeyboardEvent['key']) => {
-    const newDirection = getDirectionFromKey(key);
-    const isValidDirection = newDirection !== '';
-
-    if (!isValidDirection) return;
-
-    const snakeWillRunIntoItself =
-      getOppositeDirection(newDirection) === directionHookRef.current &&
-      snakeCellsHookRef.current.size > 1;
-
-    if (snakeWillRunIntoItself) return;
-    setDirection(newDirection);
-  };
 
   const spawnFoodInNewLocation = (snakeCells: Set<number>) => {
     const maxPossibleCellValue = BOARD_SIZE * BOARD_SIZE;

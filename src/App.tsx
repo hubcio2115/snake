@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'preact/hooks';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { initializeApp } from 'firebase/app';
@@ -13,7 +13,7 @@ import firebaseConfig from 'api/config';
 import { LeaderBoardInterface } from 'utils/interfaces';
 
 import GameView from 'views/GameView/GameView';
-import StartingScreenView from 'views/StartinScreenView/StartingScreenView';
+import StartingScreenView from 'views/StartingScreenView/StartingScreenView';
 import NavBar from 'components/NavBar/NavBar';
 
 import './App.scss';
