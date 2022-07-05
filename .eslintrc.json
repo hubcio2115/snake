@@ -3,7 +3,7 @@
     "browser": true,
     "es2021": true
   },
-  "extends": ["plugin:react/recommended", "plugin:react/jsx-runtime"],
+  "extends": "preact",
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
@@ -14,8 +14,10 @@
   },
   "plugins": ["react", "@typescript-eslint", "prettier"],
   "rules": {
-    "rules": {
-      "prettier/prettier": "warning"
-    }
+    "prettier/prettier": "warn",
+    "no-undef": "off",
+    "no-constant-condition": "off",
+    "no-redeclare": "off",
+    "no-unused-vars": "off"
   }
 }
