@@ -16,7 +16,10 @@ import './LeaderBoard.scss';
 interface LeaderBoardProps {
   isLeaderBoardLoading: boolean;
 }
-const LeaderBoard = ({ isLeaderBoardLoading }: LeaderBoardProps) => {
+
+export default function LeaderBoard({
+  isLeaderBoardLoading,
+}: LeaderBoardProps): JSX.Element {
   const [leaderBoard] = useContext(LeaderBoardContext);
 
   return (
@@ -48,6 +51,4 @@ const LeaderBoard = ({ isLeaderBoardLoading }: LeaderBoardProps) => {
       )}
     </Stack>
   );
-};
-
-export default LeaderBoard;
+}

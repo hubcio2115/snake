@@ -38,7 +38,7 @@ const getStartingSnakeLLValue = (board: number[][]): Cell => {
   };
 };
 
-const GameView = (): JSX.Element => {
+export default function GameView(): JSX.Element {
   const board = useMemo(() => createBoard(BOARD_SIZE), []);
 
   const [lost, setLost] = useState(false);
@@ -270,6 +270,4 @@ const GameView = (): JSX.Element => {
       <Typography variant="h4">Score: {score}</Typography>
     </Stack>
   );
-};
-
-export default GameView;
+}

@@ -3,7 +3,7 @@ import { AppBar, Typography } from '@mui/material';
 
 import './NavBar.scss';
 
-const NavBar = () => {
+export default function NavBar(): JSX.Element {
   const navigate = useNavigate();
 
   return (
@@ -13,5 +13,4 @@ const NavBar = () => {
       </a>
     </AppBar>
   );
-};
-export default NavBar;
+}

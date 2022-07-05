@@ -24,7 +24,7 @@ const darkTheme = createTheme({
   },
 });
 
-const App = (): JSX.Element => {
+export default function App(): JSX.Element {
   const [leaderBoard, setLeaderBoard] = useState<LeaderBoardInterface[]>([]);
   const [isLeaderBoardLoading, setIsLeaderBoardLoading] = useState(true);
 
@@ -70,6 +70,4 @@ const App = (): JSX.Element => {
       </BrowserRouter>
     </ThemeProvider>
   );
-};
-
-export default App;
+}

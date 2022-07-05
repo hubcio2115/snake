@@ -22,7 +22,11 @@ interface LoseModalProps {
   handleStartGameOver: () => void;
 }
 
-const LoseModal = ({ lost, score, handleStartGameOver }: LoseModalProps) => {
+export default function LoseModal({
+  lost,
+  score,
+  handleStartGameOver,
+}: LoseModalProps): JSX.Element {
   const navigate = useNavigate();
 
   const [leaderBoard, setLeaderBoard] = useContext(LeaderBoardContext);
@@ -112,6 +116,4 @@ const LoseModal = ({ lost, score, handleStartGameOver }: LoseModalProps) => {
       </Box>
     </Modal>
   );
-};
-
-export default LoseModal;
+}

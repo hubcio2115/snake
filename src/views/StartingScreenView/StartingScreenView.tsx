@@ -8,9 +8,9 @@ interface StartingScreenViewProps {
   isLeaderBoardLoading: boolean;
 }
 
-const StartingScreenView = ({
+export default function StartingScreenView({
   isLeaderBoardLoading,
-}: StartingScreenViewProps): JSX.Element => {
+}: StartingScreenViewProps): JSX.Element {
   const navigate = useNavigate();
 
   return (
@@ -26,5 +26,4 @@ const StartingScreenView = ({
       <LeaderBoard isLeaderBoardLoading={isLeaderBoardLoading} />
     </Stack>
   );
-};
-export default StartingScreenView;
+}
