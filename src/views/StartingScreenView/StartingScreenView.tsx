@@ -10,7 +10,7 @@ interface StartingScreenViewProps {
 
 const StartingScreenView = ({
   isLeaderBoardLoading,
-}: StartingScreenViewProps) => {
+}: StartingScreenViewProps): JSX.Element => {
   const navigate = useNavigate();
 
   return (
