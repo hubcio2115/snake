@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, get, child } from 'firebase/database';
 
-import { Box, Container } from '@mui/system';
+import { Box, Container } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 import { LeaderBoardContext } from 'context/LeaderBoardContext';
