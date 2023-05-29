@@ -7,9 +7,13 @@ export default function NavBar(): JSX.Element {
   const navigate = useNavigate();
 
   return (
-    <AppBar position="static" className="app-bar">
+    <AppBar position="relative" className="app-bar">
       <a className="logo" onClick={() => navigate('/')}>
         <Typography variant="h3">Snake 🐍</Typography>
+      </a>
+
+      <a className="github" href="https://github.com/hubcio2115/snake">
+        GitHub
       </a>
     </AppBar>
   );
