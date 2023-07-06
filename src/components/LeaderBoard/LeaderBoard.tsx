@@ -25,7 +25,7 @@ export default function LeaderBoard({
   return (
     <Stack className="leader-board-stack">
       <Typography variant="h4" pb={isLeaderBoardLoading ? 4 : 0}>
-        Leader Board
+        Leaderboard
       </Typography>
       {isLeaderBoardLoading ? (
         <CircularProgress color="primary" className="progress-circle" />
